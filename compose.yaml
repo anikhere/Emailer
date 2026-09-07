@@ -4,14 +4,14 @@ services:
 
     environment:
       POSTGRES_USER: taha_anik
-      POSTGRES_PASSWORD: taha@6666
+      POSTGRES_PASSWORD: taha6666
       POSTGRES_DB: mydb
 
     ports:
       - "5432:5432"
 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
 
 volumes:
   postgres_data:
