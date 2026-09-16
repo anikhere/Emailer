@@ -42,22 +42,22 @@ if __name__ == "__main__":
         result = conn.execute(text("SELECT 5")).scalar_one()
         print(f"Database connection successful: {result}")
 
-    student = Student(
-        name="Taha",
-        email="ta@example.com",
-        phone="1234567890",
-        resume_text="Python developer",
-    )
+    # student = Student(
+    #     name="Taha",
+    #     email="ta@example.com",
+    #     phone="1234567890",
+    #     resume_text="Python developer",
+    # )
 
-    db = SessionLocal()
+    # db = SessionLocal()
 
-    try:
-        db.add(student)
-        db.commit()
-        print("Test student inserted successfully")
-        student = db.query(Student).filter(Student.name == "Taha").first()
+    # try:
+    #     db.add(student)
+    #     db.commit()
+    #     print("Test student inserted successfully")
+    #     student = db.query(Student).filter(Student.name == "Taha").first()
 
-        print(student.name)
-        print(student.email)
-    finally:
-        db.close()
+    #     print(student.name)
+    #     print(student.email)
+    # finally:
+    #     db.close()

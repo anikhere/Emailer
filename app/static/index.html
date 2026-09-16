@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Emailer</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
+<body>
+    <main class="card">
+        <div class="logo">✦</div>
+
+        <p class="eyebrow">Internship outreach</p>
+        <h1>Create your profile</h1>
+
+        <p class="description">
+            Add the information needed to create factual
+            internship email drafts.
+        </p>
+
+        <form id="student-form">
+            <label for="name">Full name</label>
+            <input
+                id="name"
+                type="text"
+                placeholder="Husain Patel"
+                required
+            >
+
+            <label for="email">Email</label>
+            <input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+            >
+
+            <label for="phone">Phone</label>
+            <input
+                id="phone"
+                type="tel"
+                placeholder="+91 98765 43210"
+            >
+
+            <label for="linkedin">LinkedIn URL</label>
+            <input
+                id="linkedin"
+                type="url"
+                placeholder="https://linkedin.com/in/you"
+            >
+
+            <label for="github">GitHub URL</label>
+            <input
+                id="github"
+                type="url"
+                placeholder="https://github.com/you"
+            >
+
+            <label for="resume">Resume text</label>
+            <textarea
+                id="resume"
+                placeholder="Paste your resume text..."
+                required
+            ></textarea>
+
+            <button id="submit-button" type="submit">
+                <span>Save and continue</span>
+                <span aria-hidden="true">→</span>
+            </button>
+
+            <p id="status-message"></p>
+        </form>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

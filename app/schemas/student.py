@@ -34,8 +34,8 @@ router = APIRouter(
     status_code=201
 )
 def create_Student(student:StudentCreate,db:Session = Depends(get_db)):
-    query = select(student.email).where(Student.email==student.email)
-    result = db.execute(query).scalar_one_or_None()
+    query = select(Student).where(Student.email==student.email)
+    result = db.execute(query).scalar_one_or_none()
     if result is not None:
         raise HTTPException(
             status_code =  409,

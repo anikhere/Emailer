@@ -1,0 +1,121 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    font-family: system-ui, sans-serif;
+    color: #f4f7ff;
+    background:
+        radial-gradient(circle at top left, #173954, transparent 40%),
+        radial-gradient(circle at top right, #30366f, transparent 40%),
+        #07111f;
+}
+
+.card {
+    width: min(100%, 680px);
+    padding: 40px;
+    border: 1px solid #283b52;
+    border-radius: 24px;
+    background: rgba(10, 24, 41, 0.94);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    color: #07111f;
+    background: linear-gradient(135deg, #929dff, #4de0c4);
+}
+
+.eyebrow {
+    margin: 24px 0 8px;
+    color: #4de0c4;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.description {
+    color: #9eafc5;
+    line-height: 1.6;
+}
+
+form {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+label {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #34485f;
+    border-radius: 11px;
+    outline: none;
+    color: white;
+    background: #081522;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #8792ff;
+    box-shadow: 0 0 0 3px rgba(135, 146, 255, 0.15);
+}
+
+textarea {
+    min-height: 170px;
+    resize: vertical;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    padding: 14px;
+    border: 0;
+    border-radius: 12px;
+    color: #07111f;
+    background: linear-gradient(135deg, #929dff, #4de0c4);
+    font-weight: 800;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+#status-message {
+    min-height: 20px;
+    font-size: 13px;
+}
+
+.success {
+    color: #59dfa9;
+}
+
+.error {
+    color: #ff7891;
+}

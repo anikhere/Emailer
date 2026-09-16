@@ -1,7 +1,7 @@
-from tables import *
-from base import Base
+from app.database.tables import Student,Applicant
+from app.database.base import Base
 from sqlalchemy import inspect
-from connection import engine
+from app.database.connection import engine
 Base.metadata.create_all(bind=engine)
 def Inspect():
     inspector = inspect(engine)
