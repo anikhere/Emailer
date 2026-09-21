@@ -47,7 +47,9 @@ form.addEventListener("submit", async function (event) {
         }
         if (!response.ok) {
             throw new Error(
-                responseData
+                typeof responseData.detail === "string"
+                ? responseData.detail
+                : JSON.stringify(responseData.detail)
             )
         }
 
@@ -55,6 +57,13 @@ form.addEventListener("submit", async function (event) {
             'student_id',
             String(responseData.id)
         )
+        console.log(
+        "Student ID stored:",
+        sessionStorage.getItem("student_id")
+        );
+
+
+        window.location.href = "/applicant";
         statusMessage.textContent =
             `Profile created. Student ID: ${responseData.id}`;
                 statusMessage.className = "success";

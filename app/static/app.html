@@ -1,15 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Application Details</title>
+
+    <!-- Load CSS -->
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
 <body>
+
     <main class="card">
         <p class="eyebrow">2nd Page</p>
+
         <h1>Application details</h1>
 
         <p id="student-information">
             Loading student...
         </p>
-    </main>
+    
+
 
     <form id="application-form">
-        <label for="company-name">Company name</label>
+
+        <label for="company-name">
+            Company name
+        </label>
+
         <input
             id="company-name"
             type="text"
@@ -17,7 +44,11 @@
             required
         >
 
-        <label for="job-role">Job role</label>
+
+        <label for="job-role">
+            Job role
+        </label>
+
         <input
             id="job-role"
             type="text"
@@ -25,16 +56,22 @@
             required
         >
 
+
         <label for="recipient-name">
             Recipient name — optional
         </label>
+
         <input
             id="recipient-name"
             type="text"
             placeholder="Harshil Shah"
         >
 
-        <label for="recipient-email">Recipient email</label>
+
+        <label for="recipient-email">
+            Recipient email
+        </label>
+
         <input
             id="recipient-email"
             type="email"
@@ -42,20 +79,34 @@
             required
         >
 
-        <label for="job-description">Job description</label>
+
+        <label for="job-description">
+            Job description
+        </label>
+
         <textarea
             id="job-description"
             placeholder="Paste the job description..."
             required
         ></textarea>
 
-        <button id="application-button" type="submit">
+
+        <button
+            id="application-button"
+            type="submit"
+        >
             Create application
         </button>
 
-        <p id="application-status"></p>
-    </form>
 
-    <!-- Load JS after the HTML elements -->
+        <p id="application-status"></p>
+
+    </form>
+    </main>
+
+    <!-- Load JavaScript after HTML -->
     <script src="/static/app.js"></script>
+
 </body>
+
+</html>

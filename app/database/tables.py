@@ -51,8 +51,8 @@ class Applicant(Base):
     job_description: Mapped[str] = mapped_column(Text, nullable=False)
     recipient_name: Mapped[str] = mapped_column(String, nullable=False)
     recipient_email: Mapped[str] = mapped_column(String, nullable=False)
-    generated_subject: Mapped[str] = mapped_column(String, nullable=False)
-    generated_body: Mapped[str] = mapped_column(Text, nullable=False)
+    generated_subject: Mapped[str] = mapped_column(String, nullable=True)
+    generated_body: Mapped[str] = mapped_column(Text, nullable=True)
 
     status: Mapped[str] = mapped_column(
         String,
@@ -61,8 +61,8 @@ class Applicant(Base):
         nullable=False,
     )
 
-    model_name: Mapped[str] = mapped_column(String, nullable=False)
-    prompt_version: Mapped[str] = mapped_column(String, nullable=False)
+    model_name: Mapped[str] = mapped_column(String, nullable=True)
+    prompt_version: Mapped[str] = mapped_column(String, nullable=True)
 
     generation_latency_ms: Mapped[int | None] = mapped_column(nullable=True)
 

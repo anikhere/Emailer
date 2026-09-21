@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Review Draft</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
+<body>
+
+    <main class="card">
+
+        <p class="eyebrow">
+            Step 3 of 3
+        </p>
+
+        <h1>Review your email draft</h1>
+
+        <p class="description">
+            Generate and edit your email before opening Gmail.
+            Nothing is sent automatically.
+        </p>
+
+        <form id="draft-form">
+
+            <label for="recipient-email">
+                Recipient email
+            </label>
+
+            <input
+                id="recipient-email"
+                type="email"
+                placeholder="recruiter@example.com"
+                readonly
+            >
+
+            <label for="draft-subject">
+                Email subject
+            </label>
+
+            <input
+                id="draft-subject"
+                type="text"
+                placeholder="Application for Backend Engineering Intern"
+                maxlength="100"
+                required
+            >
+
+            <label for="draft-body">
+                Email body
+            </label>
+
+            <textarea
+                id="draft-body"
+                placeholder="Your generated email will appear here..."
+                required
+            ></textarea>
+
+            <button
+                id="regenerate-button"
+                type="button"
+            >
+                Generate draft
+            </button>
+
+            <button
+                id="save-open-button"
+                type="button"
+                disabled
+            >
+                Save and open Gmail
+            </button>
+
+            <p
+                id="status-message"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+        </form>
+
+    </main>
+
+    <script src="/static/draft.js"></script>
+
+</body>
+
+</html>

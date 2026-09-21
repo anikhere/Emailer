@@ -29,3 +29,8 @@ def applicant_page():
     return FileResponse(
         BASE_DIR / 'static' / 'app.html'
     )
+@app.get('/draft',include_in_schema=False)
+def draft_page():
+    return FileResponse(
+        BASE_DIR / 'static' / 'draft.html'
+    )

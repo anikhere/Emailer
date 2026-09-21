@@ -11,10 +11,7 @@ class ApplicationCreate(BaseModel):
     job_description: str
     recipient_name: str
     recipient_email: str
-    generated_subject: str
-    generated_body: str
-    model_name: str
-    prompt_version: str
+    
 
 
 class ApplicationResponse(BaseModel):
@@ -33,7 +30,7 @@ router = APIRouter(
     tags=['Application']
 )
 @router.post(
-    f'/students/student_id/applications',
+    '/students/{student_id}/applications',
     response_model=ApplicationResponse,
     status_code=201,
 )
