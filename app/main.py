@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.schemas.student import router as students_router
 from app.schemas.application import router as applications_router
 from app.services.llm import router as llm_router
+from app.gmail.main_gmail import router as draft_router
 from pathlib import Path
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -15,6 +16,7 @@ app.mount(
 app.include_router(students_router)
 app.include_router(applications_router)
 app.include_router(llm_router)
+app.include_router(draft_router)
 @app.get('/health')
 def health_check():
     return {'status':True}

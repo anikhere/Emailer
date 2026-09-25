@@ -53,6 +53,8 @@ class Applicant(Base):
     recipient_email: Mapped[str] = mapped_column(String, nullable=False)
     generated_subject: Mapped[str] = mapped_column(String, nullable=True)
     generated_body: Mapped[str] = mapped_column(Text, nullable=True)
+    final_subject: Mapped[str | None] = mapped_column(String, nullable=True)
+    final_body: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     status: Mapped[str] = mapped_column(
         String,
