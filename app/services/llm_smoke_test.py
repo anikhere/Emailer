@@ -1,5 +1,4 @@
 from app.services.ollama import generate_email
-from app.services.ollama import generate_email
 import time
 
 

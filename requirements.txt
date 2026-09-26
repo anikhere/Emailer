@@ -7,3 +7,4 @@ httpx
 ollama
 alembic
 python-dotenv
+google-genai
