@@ -12,7 +12,7 @@ def generate_email(prompt:str)->Email_validator:
         api_key=api
     )
     response = client.models.generate_content(
-        model='gemini-2.5-flash',
+        model='gemini-3.8-flash',
         contents=prompt,
         config =types.GenerateContentConfig(
             temperature=0.2,
