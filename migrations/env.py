@@ -1,15 +1,15 @@
 from logging.config import fileConfig
-
+import os 
+from dotenv import load_dotenv
 from app.database import tables
 from app.database.base import Base
-from app.database.connection import DATABASE_URL
-
 from sqlalchemy import create_engine
 from sqlalchemy import pool
 
 from alembic import context
 
-
+load_dotenv()
+db_url = os.getenv('DATABASE_URL')
 config = context.config
 
 
@@ -26,7 +26,7 @@ def run_migrations_offline() -> None:
 
     config.set_main_option(
         "sqlalchemy.url",
-        DATABASE_URL.replace("%", "%%"),
+        db_url.replace("%", "%%"),
     )
 
     url = config.get_main_option("sqlalchemy.url")
@@ -46,7 +46,7 @@ def run_migrations_online() -> None:
     """Run migrations by connecting to the database."""
 
     connectable = create_engine(
-        DATABASE_URL,
+        db_url,
         poolclass=pool.NullPool,
     )
 

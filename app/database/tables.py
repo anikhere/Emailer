@@ -85,3 +85,13 @@ class Applicant(Base):
         "Student",
         back_populates="applications",
     )
+class Tracker(Base):
+    __tablename__ = 'tracker_event'
+    id: Mapped[int] = mapped_column(primary_key=True,autoincrement=True)
+    phase : Mapped[str] = mapped_column(String,nullable=False)
+    user_id : Mapped[str] = mapped_column(nullable=False,index=True)
+    time: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
