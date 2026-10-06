@@ -9,7 +9,7 @@ function optionalValue(elementId) {
 }
 
 form.addEventListener("submit", async function (event) {
-    // Prevent the browser from reloading the page
+
     event.preventDefault();
 
     const studentData = {
@@ -52,6 +52,7 @@ form.addEventListener("submit", async function (event) {
                 : JSON.stringify(responseData.detail)
             )
         }
+        track("student_submitted");   
 
         sessionStorage.setItem(
             'student_id',

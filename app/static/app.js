@@ -48,6 +48,7 @@ applicationForm.addEventListener("submit", async function (event) {
                 responseData.detail || "Could not create application"
             );
         }
+        track('application submitted')
 
         sessionStorage.setItem(
             "application_id",

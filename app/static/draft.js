@@ -79,7 +79,7 @@ async function generateDraft() {
                 "Draft generation failed"
             );
         }
-
+        track('draft_success')
         subjectInput.value = responseData.subject;
         bodyInput.value = responseData.body;
 
@@ -166,6 +166,7 @@ async function saveAndOpenGmail() {
                 "Could not save the final draft"
             );
         }
+        track("gmail_opened");   
 
         const gmailUrl = new URL(
             "https://mail.google.com/mail/"
