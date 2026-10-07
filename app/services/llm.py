@@ -5,14 +5,14 @@ from httpx import HTTPError
 from ollama import ResponseError
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
-
+from google.genai import errors
 from app.database.connection import get_db
 from app.database.tables import Applicant
 from app.services.draft import Email_validator
 from app.services.ollama import generate_email
 
 
-MODEL_NAME = "qwen3:1.7b"
+MODEL_NAME = "gemini-3.5-flash-lite"
 PROMPT_VERSION = "cold_email_v1"
 
 
@@ -98,7 +98,7 @@ Recipient: {recipient}
 
         return result
 
-    except (HTTPError, ResponseError, ValidationError) as error:
+    except (HTTPError, ResponseError, ValidationError, errors.APIError) as error:
         db.rollback()
 
         latency_ms = int(
@@ -110,8 +110,8 @@ Recipient: {recipient}
         db.commit()
 
         raise HTTPException(
-            status_code=502,
-            detail="Draft generation failed",
+            status_code=503,
+            detail="The AI is busy. Please try again in a minute.",
         ) from error
 
     except Exception:
