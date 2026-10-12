@@ -1,140 +1,91 @@
-import json
+import os
 import re
 from pathlib import Path
-import os 
+
 import numpy as np
 from dotenv import load_dotenv
 from google import genai
-from pathlib import Path
+
 load_dotenv()
-file_cache = Path('saved_file.npz')
-FILE_NAME = 'sample_resume.txt'
+
+FILE_NAME = "sample_resume.txt"
+CACHE_FILE = Path("saved_file.npz")
+DB_FILE = Path('saved_chunks.npz')
+K = 2  
+
 
 def chunks_resume(resume):
-    n = len(resume)
-    resume = re.split(r'\n\s*\n',resume)
-    chunks = [p.strip() for p in resume if not p == '']
-    return chunks[:100]
+    pieces = re.split(r"\n\s*\n", resume)
+    return [p.strip() for p in pieces if p.strip()][:100]
+
 
 def embed(chunks):
-    client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
-    rows=[]
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    rows = []
     for c in chunks:
-        result = client.models.embed_content(model='gemini-embedding-2',contents=c)
+        result = client.models.embed_content(
+            model="gemini-embedding-2", contents=c
+        )
         rows.append(result.embeddings[0].values)
     vector = np.array(rows)
-    vector = vector/np.linalg.norm(vector,axis=1,keepdims=True)
+    vector = vector / np.linalg.norm(vector, axis=1, keepdims=True)
     return vector
 
-def retrieve(question,vectors,pics,k=3):
+
+def retrieve(question, vectors, pics, k=3):
     q = embed([question])[0]
     scores = vectors @ q
     best = np.argsort(scores)[::-1][:k]
     return [pics[i] for i in best]
 
-def save_vec_chunks(chun,vec,file_):
-    np.savez(
-        file_,
-        chunks = chun,
-        vector = vec,
-    )
+
+def save_vec_chunks(chun, vec, file_):
+    np.savez(file_, chunks=chun, vector=vec)
+
 
 eval_questions = [
-    {
-        "question": "What kind of role is Taha interested in?",
-        "expected_chunk": (
-            "SUMMARY\n"
-            "Python developer interested in backend development "
-            "and AI applications."
-        ),
-    },
-    {
-        "question": "What programming languages and tools does Taha know?",
-        "expected_chunk": (
-            "SKILLS\n"
-            "Python, FastAPI, SQLAlchemy, PostgreSQL, Pandas, Git"
-        ),
-    },
-    {
-        "question": "What experience does Taha have as a backend developer?",
-        "expected_chunk": (
-            "EXPERIENCE\n"
-            "Backend Developer Intern\n"
-            "Built REST APIs using FastAPI and SQLAlchemy.\n"
-            "Worked with PostgreSQL databases and external APIs."
-        ),
-    },
-    {
-        "question": "What did Taha build in his Resume Analyzer project?",
-        "expected_chunk": (
-            "PROJECTS\n"
-            "Resume Analyzer\n"
-            "Created a resume processing application using Python "
-            "and Google Gemini."
-        ),
-    },
-    {
-        "question": "Does Taha have knowledge of Docker and AWS?",
-        "expected_chunk": (
-            "SKILLS\n"
-            "Python, FastAPI, SQLAlchemy, PostgreSQL, Pandas, Git"
-        ),
-    },
+    {"question": "What kind of role i am interested in?",
+     "must_contain": "Python developer interested"},
+    {"question": "What programming languages and tools does i know?",
+     "must_contain": "SKILLS"},
+    {"question": "What experience do i have as a backend developer?",
+     "must_contain": "Backend Developer Intern"},
+    {"question": "What did I build in his Resume Analyzer project?",
+     "must_contain": "Resume Analyzer"},
+    {"question": "Do i have knowledge of Docker and AWS?",
+     "must_contain": "SKILLS"},  
+    {"question": "Has he built anything that uses an AI model?",
+     "must_contain": "Google Gemini"},
+    {"question": "Mere paas kaunse projects hain?",
+     "must_contain": "Resume Analyzer"},
 ]
 
 
+def run_eval(chunks, vectors, k=K):
+    score = 0
+    for item in eval_questions:
+        top = retrieve(item["question"], vectors, chunks, k=k)
+        hit = any(item["must_contain"] in c for c in top)
+        score += hit
+        print("PASS" if hit else "FAIL", "|", item["question"])
+        print("    top chunk:", top[0][:60].replace("\n", " "))
+    print(f"\nRetrieval score (top-{k}): {score}/{len(eval_questions)}")
+
+
 if __name__ == "__main__":
-    question = 'does this student is having knowledge in aws and docker'
-    with open(FILE_NAME,'r') as f:
-        file = f.read()
-    if file_cache.exists():
-            data = np.load(file_cache, allow_pickle=False)
+    with open(FILE_NAME, encoding="utf-8") as f:
+        resume_text = f.read()
 
-            chnks = data["chunks"].tolist()
-            vector = data["vector"]
+    # if CACHE_FILE.exists():
+    #     data = np.load(CACHE_FILE, allow_pickle=False)
+    #     chnks = data["chunks"].tolist()
+    #     vector = data["vector"]
+    #     print("Loaded saved embeddings")
+    # else:
+    #     chnks = chunks_resume(resume_text)
+    #     vector = embed(chnks)
+    #     save_vec_chunks(chnks, vector, CACHE_FILE)
+    #     print("Created and saved embeddings")
 
-            print("Loaded saved embeddings")
-
-    else:
-            chunked = chunks_resume(file)
-            embedd = embed(chunked)
-
-            save_vec_chunks(
-                chun=chunked,
-                vec=embedd,
-                file_=file_cache
-            )
-
-            chnks = chunked
-            vector = embedd
-
-    print("Created and saved embeddings")
-
-    pics = retrieve(
-            question=question,
-            vectors=vector,
-            pics=chnks,
-            k=3
-        )
-
-print(pics)
-
-score = 0
-
-for item in eval_questions:
-    pics = retrieve(
-        question=item["question"],
-        vectors=vector,
-        pics=chnks,
-        k=3
-    )
-
-    if item["expected_chunk"] in pics:
-        score += 1
-
-print(f"Final retrieval score: {score}/{len(eval_questions)}")
-
-
-
-
-
+    # print("Number of chunks:", len(chnks))
+    # run_eval(chnks, vector)

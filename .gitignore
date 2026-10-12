@@ -4,3 +4,5 @@
 __pycache__/
 *.pyc
 sample_resume.txt
+*.wav
+*.npz
