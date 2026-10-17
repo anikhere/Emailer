@@ -22,14 +22,22 @@
 
             <p id="question">Loading question...</p>
             <button id="replay-button">
-                ↻ Replay Question
+                ↻ Hear the question 
             </button>
 
-            <textarea
-                id="answer"
-                placeholder="Type your answer here..."
-                rows="6"
-            ></textarea>
+            <div class="answer_input">
+    <textarea
+        id="answer"
+        placeholder="Type your answer here..."
+        rows="6"
+    ></textarea>
+
+    <button id="mic-button" type="button">
+        🎤 Speak Your Answer
+    </button>
+
+    <p id="mic-status" role="status" aria-live="polite"></p>
+</div>
 
             <button id="submit-button" type="button">
                 Submit Answer

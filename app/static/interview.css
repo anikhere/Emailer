@@ -1,263 +1,339 @@
 
-/* ========================================
-   AI INTERVIEW COACH — MODERN UI
-   ======================================== */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap");
 
-/* 1. Global setup */
-* {
-    box-sizing: border-box;
+/* ---------- 1. Theme ---------- */
+:root {
+  --ink: #0a1430;
+  --panel: #101d3a;
+  --raised: #17284d;
+  --line: #2a3e6b;
+  --text: #e9eefb;
+  --muted: #a3b2d1;
+  --faint: #7b8db4;
+  --violet: #9aa5ff;
+  --teal: #5fd9c5;
+  --coral: #ff8f9e;
+  --amber: #ffcf7a;
+
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+  --gutter: clamp(18px, 4vw, 40px);
+  --measure: 46rem;
+
+  color-scheme: dark;
 }
 
-:root {
-    --bg: #f7f8fa;
-    --surface: #ffffff;
-    --text: #202124;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --primary: #2563eb;
-    --primary-hover: #1d4ed8;
-    --soft-blue: #eff6ff;
-    --radius: 16px;
+* {
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Inter, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--text);
+  font-family: "Plus Jakarta Sans", "Inter", "Nirmala UI",
+    "Noto Sans Devanagari", "Noto Sans Gujarati", system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 2. Header */
+/* ---------- 2. Header ---------- */
 header {
-    padding: 30px 24px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
+  padding: 26px var(--gutter);
+  border-bottom: 1px solid var(--line);
 }
 
 header h1 {
-    max-width: 920px;
-    margin: 0 auto 5px;
-    font-size: 25px;
-    font-weight: 650;
-    letter-spacing: -0.8px;
-    color: #111827;
+  margin: 0 0 4px;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 header p {
-    max-width: 920px;
-    margin: 0 auto;
-    color: var(--muted);
-    font-size: 14px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
 }
 
-/* 3. Main layout */
+/* ---------- 3. Main layout ---------- */
 main {
-    width: min(920px, 92%);
-    margin: 38px auto 60px;
-    display: grid;
-    gap: 22px;
+  display: grid;
+  gap: 20px;
+  width: min(var(--measure), calc(100% - 2 * var(--gutter)));
+  margin: clamp(24px, 5vw, 52px) auto 72px;
 }
 
-/* 4. Content cards */
 section {
-    min-width: 0;
-    padding: 30px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.025);
+  min-width: 0;
+  padding: clamp(20px, 3.5vw, 32px);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
 }
 
 h2 {
-    margin: 0 0 22px;
-    font-size: 18px;
-    font-weight: 650;
-    letter-spacing: -0.3px;
-    color: #202124;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 650;
 }
 
-/* 5. Interview question */
+/* ---------- 4. Interview section ---------- */
+#interview-section {
+  display: grid;
+  gap: 16px;
+}
+
 #question {
-    margin: 0;
-    padding: 20px 22px;
-    background: #f8faff;
-    border: 1px solid #e4eaf7;
-    border-radius: 12px;
-    color: #202b40;
-    font-size: 16px;
-    line-height: 1.8;
+  margin: 0;
+  padding: 18px 20px;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--violet);
+  border-radius: var(--radius-md);
+  font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
 }
 
-/* 6. Replay question button */
-#replay-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 14px;
-    padding: 9px 13px;
-    background: white;
-    color: #374151;
-    border: 1px solid #d1d5db;
-    border-radius: 9px;
-    font-size: 13px;
-    font-weight: 550;
+/* ---------- 5. Answer textarea ---------- */
+#answer {
+  display: block;
+  width: 100%;
+  min-height: 10rem;
+  margin-top: 6px;
+  padding: 16px 18px;
+  background: var(--ink);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--teal);
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.7;
+  resize: vertical;
+  outline: 2px solid transparent;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-#replay-button:hover {
-    background: #f3f4f6;
-    border-color: #9ca3af;
+#answer::placeholder {
+  color: var(--faint);
 }
 
-/* 7. Answer input */
-textarea {
-    display: block;
-    width: 100%;
-    min-height: 155px;
-    margin: 22px 0 16px;
-    padding: 16px;
-    background: #fff;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 15px;
-    line-height: 1.7;
-    border: 1px solid #d1d5db;
-    border-radius: 12px;
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+#answer:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 4px rgba(95, 217, 197, 0.16);
 }
 
-textarea::placeholder {
-    color: #9ca3af;
-}
-
-textarea:focus {
-    border-color: #93b4fa;
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.09);
-}
-
-/* 8. Buttons */
+/* ---------- 6. Buttons ---------- */
 button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 11px 17px;
-    background: var(--primary);
-    color: white;
-    border: 1px solid transparent;
-    border-radius: 9px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.18s ease, transform 0.18s ease;
-}
-
-#submit-button:hover {
-    background: var(--primary-hover);
-    transform: translateY(-1px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, filter 0.15s;
 }
 
 button:focus-visible {
-    outline: 3px solid #bfdbfe;
-    outline-offset: 2px;
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
 }
 
 button:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-    transform: none;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-/* 9. Status message */
+#replay-button {
+  justify-self: start;
+  background: transparent;
+  color: var(--text);
+  border-color: var(--line);
+}
+
+#replay-button:hover:not(:disabled) {
+  background: var(--raised);
+}
+
+/* New microphone button */
+#mic-button {
+  justify-self: start;
+  background: var(--raised);
+  color: var(--teal);
+  border-color: var(--line);
+}
+
+#mic-button:hover:not(:disabled) {
+  background: var(--line);
+}
+
+#mic-button.recording {
+  background: var(--coral);
+  color: var(--ink);
+  border-color: var(--coral);
+}
+
+/* New microphone status message */
+#mic-status {
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+#submit-button {
+  justify-self: start;
+  background: linear-gradient(120deg, var(--violet), var(--teal));
+  color: #08122b;
+}
+
+#submit-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+#submit-button:active:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+/* ---------- 7. General status message ---------- */
 #status-message {
-    margin: 14px 0 0;
-    color: var(--muted);
-    font-size: 13px;
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
 }
 
-/* 10. Feedback section */
+/* ---------- 8. Feedback panel ---------- */
 #feedback-section {
-    display: grid;
-    gap: 14px;
+  display: grid;
+  gap: 14px;
+  animation: reveal 0.35s ease-out;
 }
 
-#feedback-section h2 {
-    margin-bottom: 4px;
+#feedback-section:has(#evidence:empty) {
+  display: none;
 }
 
-#feedback-section p {
-    margin: 0;
-    padding: 15px 17px;
-    background: #fafafa;
-    border: 1px solid #eeeeee;
-    border-radius: 10px;
-    color: #4b5563;
-    font-size: 14px;
-    line-height: 1.75;
-    overflow-wrap: anywhere;
+#evidence,
+#unsupported-claims,
+#tip {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+  color: var(--muted);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+#evidence::before,
+#unsupported-claims::before,
+#tip::before {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+#evidence {
+  border-left-color: var(--teal);
 }
 
 #evidence::before {
-    content: "Evidence";
-    display: block;
-    margin-bottom: 5px;
-    color: #111827;
-    font-weight: 650;
+  content: "Backed by your resume";
+}
+
+#unsupported-claims {
+  border-left-color: var(--coral);
 }
 
 #unsupported-claims::before {
-    content: "Unsupported claims";
-    display: block;
-    margin-bottom: 5px;
-    color: #111827;
-    font-weight: 650;
+  content: "Not backed by your resume";
+}
+
+#tip {
+  border-left-color: var(--amber);
 }
 
 #tip::before {
-    content: "Improvement tip";
-    display: block;
-    margin-bottom: 5px;
-    color: #111827;
-    font-weight: 650;
+  content: "Next step";
 }
 
-/* 11. Responsive design */
+#unsupported-claims:empty,
+#tip:empty {
+  display: none;
+}
+
+/* ---------- 9. Animations ---------- */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- 10. Mobile layout ---------- */
 @media (max-width: 600px) {
-    header {
-        padding: 24px 20px;
-    }
-
-    header h1 {
-        font-size: 22px;
-    }
-
-    main {
-        width: calc(100% - 28px);
-        margin: 22px auto 36px;
-        gap: 16px;
-    }
-
-    section {
-        padding: 21px;
-        border-radius: 13px;
-    }
-
-    #question {
-        padding: 16px;
-        font-size: 15px;
-    }
-
-    textarea {
-        min-height: 135px;
-    }
-
-    #submit-button {
-        width: 100%;
-    }
+  #replay-button,
+  #mic-button,
+  #submit-button {
+    justify-self: stretch;
+    width: 100%;
+  }
 }
+
+#mic-button {
+  justify-self: start;
+  background: var(--raised);
+  color: var(--teal);
+  border-color: var(--line);
+}
+
+#mic-button:hover:not(:disabled) {
+  background: var(--line);
+}
+
+#mic-status {
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 600px) {
+  #mic-button {
+    justify-self: stretch;
+    width: 100%;
+  }
+}
+

@@ -1,13 +1,23 @@
+console.log("JavaScript loaded");
 
+console.log("SpeechRecognition:", 
+    window.SpeechRecognition || window.webkitSpeechRecognition
+);
+
+console.log("Microphone button:", micButton);
 const answer = document.querySelector('#answer');
 const button = document.querySelector('#submit-button');
 const questionElement = document.querySelector('#question');
 const rep_but = document.querySelector('#replay-button');
 const feed = document.querySelector('#status-message');
-
+const micButton = document.querySelector('#mic-button');
+const micStatus = document.querySelector('#mic-status');
+console.log('Mic button:', micButton);
+console.log('Mic status:', micStatus);
 const evi = document.querySelector('#evidence');
 const claim = document.querySelector('#unsupported-claims');
 const tip = document.querySelector('#tip');
+
 
 async function loadQuestion() {
     try {
@@ -28,10 +38,8 @@ async function loadQuestion() {
 
 async function send_que_ans() {
     try {
-        // CHANGED: Get the text typed by the user.
         const answerText = answer.value.trim();
 
-        // CHANGED: Prevent empty answers from being submitted.
         if (!answerText) {
             throw new Error('Please enter your answer.');
         }
@@ -41,7 +49,6 @@ async function send_que_ans() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            // CHANGED: Send the answer text, not the textarea element.
             body: JSON.stringify({
                 question: questionElement.textContent,
                 answer: answerText
@@ -50,12 +57,10 @@ async function send_que_ans() {
 
         const data = await response.json();
 
-        // CHANGED: Check the HTTP response status.
         if (!response.ok) {
             throw new Error(data.detail || 'Failed to submit answer.');
         }
 
-        // Display the feedback returned by FastAPI.
         evi.textContent = data.evidence;
         tip.textContent = data.tip;
         claim.textContent = data.unsupported_claims.join(', ');
@@ -82,4 +87,56 @@ async function replay_but() {
 
 button.addEventListener('click', send_que_ans);
 rep_but.addEventListener('click',replay_but)
-loadQuestion();
+const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let recognition = null;
+
+micButton.addEventListener('click', () => {
+    console.log('Mic button clicked');
+
+    if (!SpeechRecognition) {
+        micStatus.textContent = 'Speech recognition is not supported.';
+        return;
+    }
+
+    if (recognition) {
+        recognition.stop();
+        recognition = null;
+        return;
+    }
+
+    recognition = new SpeechRecognition();
+    recognition.lang = 'en-IN';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onstart = () => {
+        console.log('Microphone started');
+        micStatus.textContent = 'Listening... Speak now.';
+        micButton.textContent = '⏹ Stop Recording';
+    };
+
+    recognition.onresult = (event) => {
+        let transcript = '';
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript + ' ';
+        }
+
+        answer.value = (answer.value + ' ' + transcript).trim();
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Speech error:', event.error);
+        micStatus.textContent = `Microphone error: ${event.error}`;
+    };
+
+    recognition.onend = () => {
+        recognition = null;
+        micButton.textContent = '🎤 Speak Your Answer';
+        micStatus.textContent = 'Recording stopped.';
+    };
+
+    recognition.start();
+});loadQuestion();
