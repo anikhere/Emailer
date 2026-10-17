@@ -39,13 +39,13 @@ Resume chunks:
 Rules:
 - named_project: true only if the answer names a project that appears in the chunks.
 - evidence: quote the supporting line, or write "not listed in your profile".
-- unsupported_claims: every claim in the answer the chunks do not support.
+- unsupported_claims: unsupported_claims: Identify positive claims about skills, projects, or experience that are not supported by the resume chunks. If the answer says the student has experience, check whether the chunks support it. If the answer admits they lack experience or says they do not know a tool, do not flag that statement. Do not assume a claim is true just because the student says it.
 - The answer came from speech recognition, so technical words may be misheard (Docker as doctor).
 - tip: one short sentence."""
 
     try:
         response = client.models.generate_content(
-            model="gemini-3.8-flash",
+            model="gemini-3.5-flash-lite",
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",

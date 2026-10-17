@@ -7,6 +7,7 @@ from app.database.tracker import router as track_router
 from pathlib import Path
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from app.router.interview import router as inter_router
 BASE_DIR = Path(__file__).resolve().parent
 app = FastAPI(title='Emailer API')
 app.mount(
@@ -19,6 +20,7 @@ app.include_router(applications_router)
 app.include_router(llm_router)
 app.include_router(draft_router)
 app.include_router(track_router)
+app.include_router(inter_router)
 @app.get('/health')
 def health_check():
     return {'status':True}
@@ -38,3 +40,6 @@ def draft_page():
     return FileResponse(
         BASE_DIR / 'static' / 'draft.html'
     )
+@app.get('/interview')
+def open_inter():
+    return FileResponse(BASE_DIR/'static'/'interview.html')

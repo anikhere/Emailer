@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview Coach</title>
+
+    <link rel="stylesheet" href="/static/interview.css">
+    <script src="/static/interview.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>AI Interview Coach</h1>
+        <p>Practise interviews and improve your answers.</p>
+    </header>
+
+    <main>
+        <section id="interview-section">
+            <h2>Your Interview Question</h2>
+
+            <p id="question">Loading question...</p>
+            <button id="replay-button">
+                ↻ Replay Question
+            </button>
+
+            <textarea
+                id="answer"
+                placeholder="Type your answer here..."
+                rows="6"
+            ></textarea>
+
+            <button id="submit-button" type="button">
+                Submit Answer
+            </button>
+
+            <p id="status-message"></p>
+        </section>
+
+        <section id="feedback-section">
+            <h2>Your Feedback</h2>
+
+            <p id="evidence"></p>
+            <p id="unsupported-claims"></p>
+            <p id="tip"></p>
+        </section>
+    </main>
+</body>
+</html>
