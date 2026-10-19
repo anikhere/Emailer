@@ -9,3 +9,5 @@ alembic
 python-dotenv
 google-genai
 numpy 
+gnani-vachana
+python-multipart

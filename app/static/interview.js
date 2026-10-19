@@ -1,10 +1,6 @@
+
 console.log("JavaScript loaded");
 
-console.log("SpeechRecognition:", 
-    window.SpeechRecognition || window.webkitSpeechRecognition
-);
-
-console.log("Microphone button:", micButton);
 const answer = document.querySelector('#answer');
 const button = document.querySelector('#submit-button');
 const questionElement = document.querySelector('#question');
@@ -12,12 +8,11 @@ const rep_but = document.querySelector('#replay-button');
 const feed = document.querySelector('#status-message');
 const micButton = document.querySelector('#mic-button');
 const micStatus = document.querySelector('#mic-status');
-console.log('Mic button:', micButton);
-console.log('Mic status:', micStatus);
+
 const evi = document.querySelector('#evidence');
 const claim = document.querySelector('#unsupported-claims');
 const tip = document.querySelector('#tip');
-
+const recordedAudio = document.querySelector('#recorded-audio');
 
 async function loadQuestion() {
     try {
@@ -74,69 +69,85 @@ async function send_que_ans() {
         feed.textContent = error.message;
     }
 }
+
 async function replay_but() {
     window.speechSynthesis.cancel();
+
     const speech = new SpeechSynthesisUtterance(
         questionElement.textContent
-    )
+    );
+
     speech.lang = 'en-IN';
     speech.rate = 0.95;
-    window.speechSynthesis.speak(speech)
 
+    window.speechSynthesis.speak(speech);
 }
 
 button.addEventListener('click', send_que_ans);
-rep_but.addEventListener('click',replay_but)
-const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+rep_but.addEventListener('click', replay_but);
+let mediaRecorder = null;
+let audioChunks = [];
+let audioStream = null;
 
-let recognition = null;
+micButton.onclick = async () => {
+    console.log("Microphone clicked");
 
-micButton.addEventListener('click', () => {
-    console.log('Mic button clicked');
-
-    if (!SpeechRecognition) {
-        micStatus.textContent = 'Speech recognition is not supported.';
-        return;
-    }
-
-    if (recognition) {
-        recognition.stop();
-        recognition = null;
-        return;
-    }
-
-    recognition = new SpeechRecognition();
-    recognition.lang = 'en-IN';
-    recognition.continuous = true;
-    recognition.interimResults = true;
-
-    recognition.onstart = () => {
-        console.log('Microphone started');
-        micStatus.textContent = 'Listening... Speak now.';
-        micButton.textContent = '⏹ Stop Recording';
-    };
-
-    recognition.onresult = (event) => {
-        let transcript = '';
-
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript + ' ';
+    try {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            console.log("Stopping recording manually");
+            mediaRecorder.stop();
+            return;
         }
 
-        answer.value = (answer.value + ' ' + transcript).trim();
-    };
+        audioStream = await navigator.mediaDevices.getUserMedia({
+            audio: true
+        });
 
-    recognition.onerror = (event) => {
-        console.error('Speech error:', event.error);
-        micStatus.textContent = `Microphone error: ${event.error}`;
-    };
+        console.log("Microphone permission granted");
 
-    recognition.onend = () => {
-        recognition = null;
-        micButton.textContent = '🎤 Speak Your Answer';
-        micStatus.textContent = 'Recording stopped.';
-    };
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(audioStream);
 
-    recognition.start();
-});loadQuestion();
+        mediaRecorder.onstart = () => {
+            console.log("Recording started");
+            micStatus.textContent = "Recording... speak now.";
+            micButton.textContent = "⏹ Stop Recording";
+        };
+
+        mediaRecorder.ondataavailable = (event) => {
+            console.log("Audio chunk size:", event.data.size);
+
+            if (event.data.size > 0) {
+                audioChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.onerror = (event) => {
+            console.error("Recorder error:", event.error);
+        };
+
+        mediaRecorder.onstop = () => {
+            console.log("Recording stopped. Chunks:", audioChunks.length);
+
+            const blob = new Blob(audioChunks, {
+                type: mediaRecorder.mimeType
+            });
+
+            console.log("Audio size:", blob.size, "bytes");
+
+            recordedAudio.src = URL.createObjectURL(blob);
+            recordedAudio.load();
+
+            audioStream.getTracks().forEach(track => track.stop());
+
+            micButton.textContent = "🎤 Start Recording";
+            micStatus.textContent = "Recording stopped.";
+        };
+
+        mediaRecorder.start();
+
+    } catch (error) {
+        console.error("Microphone error:", error);
+        micStatus.textContent = error.message;
+    }
+};loadQuestion();

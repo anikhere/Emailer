@@ -21,29 +21,43 @@
             <h2>Your Interview Question</h2>
 
             <p id="question">Loading question...</p>
-            <button id="replay-button">
-                ↻ Hear the question 
+
+            <button id="replay-button" type="button">
+                ↻ Hear the Question
             </button>
 
             <div class="answer_input">
-    <textarea
-        id="answer"
-        placeholder="Type your answer here..."
-        rows="6"
-    ></textarea>
+                <label for="answer">Your Answer</label>
 
-    <button id="mic-button" type="button">
-        🎤 Speak Your Answer
-    </button>
+                <textarea
+                    id="answer"
+                    placeholder="Type your answer here..."
+                    rows="6"
+                ></textarea>
 
-    <p id="mic-status" role="status" aria-live="polite"></p>
-</div>
+                <button id="mic-button" type="button">
+                    🎤 Start Recording
+                </button>
+
+                <p
+                    id="mic-status"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+                <label for="recorded-audio">Recorded Audio</label>
+                <audio id="recorded-audio" controls></audio>
+
+                <button id="transcribe-button" type="button">
+                    Transcribe Audio
+                </button>
+            </div>
 
             <button id="submit-button" type="button">
                 Submit Answer
             </button>
 
-            <p id="status-message"></p>
+            <p id="status-message" role="status"></p>
         </section>
 
         <section id="feedback-section">

@@ -1,339 +1,574 @@
+/*
+ * AI Interview Coach — Interview Workspace
+ * Drop-in replacement for app/static/interview.css.
+ * Matches the supplied HTML; no markup or JavaScript changes required.
+ * No external assets or font downloads required.
+ * Optional JS state hooks: .recording, aria-pressed="true", aria-busy="true".
+ */
 
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap");
-
-/* ---------- 1. Theme ---------- */
+/* 1. Theme -------------------------------------------------------------- */
 :root {
-  --ink: #0a1430;
-  --panel: #101d3a;
-  --raised: #17284d;
-  --line: #2a3e6b;
-  --text: #e9eefb;
-  --muted: #a3b2d1;
-  --faint: #7b8db4;
-  --violet: #9aa5ff;
-  --teal: #5fd9c5;
-  --coral: #ff8f9e;
-  --amber: #ffcf7a;
-
-  --radius-lg: 20px;
-  --radius-md: 12px;
-  --radius-sm: 10px;
-  --gutter: clamp(18px, 4vw, 40px);
-  --measure: 46rem;
-
-  color-scheme: dark;
+    color-scheme: dark;
+    --ink: #080f1d;
+    --panel: #101b2f;
+    --raised: #182740;
+    --line: #2a3b55;
+    --text: #f0f4ff;
+    --muted: #acbbd4;
+    --faint: #8a9bb8;
+    --violet: #b0b4ff;
+    --teal: #76e2cb;
+    --coral: #ffa1ae;
+    --amber: #f4cf8c;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --gutter: clamp(16px, 4vw, 36px);
+    --measure: 56rem;
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-* {
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--ink);
-  color: var(--text);
-  font-family: "Plus Jakarta Sans", "Inter", "Nirmala UI",
-    "Noto Sans Devanagari", "Noto Sans Gujarati", system-ui, sans-serif;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    background:
+        radial-gradient(ellipse at 12% 0%, #7978ef12, transparent 45%),
+        radial-gradient(ellipse at 96% 30%, #52c6b00a, transparent 40%),
+        var(--ink);
+    color: var(--text);
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", "Nirmala UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ---------- 2. Header ---------- */
+::selection {
+    background: #76e2cb38;
+    color: var(--text);
+}
+
+/* Preserve native hidden behavior even on elements with display rules. */
+[hidden] {
+    display: none !important;
+}
+
+/* 2. Header and page frame ---------------------------------------------- */
+header,
+main {
+    width: min(var(--measure), calc(100% - var(--gutter) - var(--gutter)));
+    margin-inline: auto;
+}
+
 header {
-  padding: 26px var(--gutter);
-  border-bottom: 1px solid var(--line);
+    padding-block: clamp(32px, 5vw, 60px) 28px;
+}
+
+header::before {
+    content: "INTERVIEW WORKSPACE";
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 5px 10px;
+    border: 1px solid #b0b4ff30;
+    border-radius: 7px;
+    background: #b0b4ff0a;
+    color: var(--violet);
+    font-size: 0.65625rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    line-height: 1.6;
 }
 
 header h1 {
-  margin: 0 0 4px;
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
-  font-weight: 750;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+    margin: 0 0 10px;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 1.12;
+    text-wrap: balance;
 }
 
 header p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.9375rem;
+    max-width: 54ch;
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(0.9375rem, 2vw, 1.0625rem);
 }
 
-/* ---------- 3. Main layout ---------- */
 main {
-  display: grid;
-  gap: 20px;
-  width: min(var(--measure), calc(100% - 2 * var(--gutter)));
-  margin: clamp(24px, 5vw, 52px) auto 72px;
+    display: grid;
+    gap: 24px;
+    margin-bottom: 72px;
 }
 
-section {
-  min-width: 0;
-  padding: clamp(20px, 3.5vw, 32px);
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
+main > section {
+    position: relative;
+    min-width: 0;
+    padding: clamp(20px, 4vw, 36px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, #142139, var(--panel) 55%);
+    box-shadow: 0 24px 64px #00000024, inset 0 1px 0 #ffffff04;
+}
+
+#interview-section::before {
+    content: "";
+    position: absolute;
+    inset: -1px 28px auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #b0b4ff99, #76e2cb80, transparent);
+    pointer-events: none;
 }
 
 h2 {
-  margin: 0;
-  color: var(--muted);
-  font-size: 1rem;
-  font-weight: 650;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.71875rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    line-height: 1.5;
+    text-transform: uppercase;
 }
 
-/* ---------- 4. Interview section ---------- */
+/* 3. Question ----------------------------------------------------------- */
 #interview-section {
-  display: grid;
-  gap: 16px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 22px 16px;
+}
+
+#interview-section > h2 {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
 }
 
 #question {
-  margin: 0;
-  padding: 18px 20px;
-  background: var(--ink);
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--violet);
-  border-radius: var(--radius-md);
-  font-size: clamp(1.15rem, 2.6vw, 1.45rem);
-  font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: clamp(20px, 3vw, 28px);
+    border: 1px solid #b0b4ff26;
+    border-left: 3px solid var(--violet);
+    border-radius: var(--radius-md);
+    background: linear-gradient(120deg, #b0b4ff0c, #0b1526 75%);
+    color: var(--text);
+    font-size: clamp(1.125rem, 2.5vw, 1.4375rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
 }
 
-/* ---------- 5. Answer textarea ---------- */
+/* 4. Editable answer and recording area -------------------------------- */
+.answer_input {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 14px 16px;
+    min-width: 0;
+    padding: clamp(16px, 2.8vw, 24px);
+    border: 1px solid #ffffff0d;
+    border-radius: 19px;
+    background: #080f1d55;
+}
+
+.answer_input > label {
+    grid-column: 1 / -1;
+    color: var(--text);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.015em;
+}
+
+.answer_input > label[for="recorded-audio"] {
+    margin-top: 6px;
+    color: var(--muted);
+}
+
 #answer {
-  display: block;
-  width: 100%;
-  min-height: 10rem;
-  margin-top: 6px;
-  padding: 16px 18px;
-  background: var(--ink);
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--teal);
-  border-radius: var(--radius-md);
-  font: inherit;
-  font-size: 1rem;
-  line-height: 1.7;
-  resize: vertical;
-  outline: 2px solid transparent;
-  transition: border-color 0.15s, box-shadow 0.15s;
+    grid-column: 1 / -1;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 11rem;
+    margin: 0;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    outline: 3px solid transparent;
+    outline-offset: 2px;
+    background: #080f1d;
+    color: var(--text);
+    caret-color: var(--teal);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.8;
+    resize: vertical;
+    transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease);
 }
 
 #answer::placeholder {
-  color: var(--faint);
+    color: var(--faint);
+    opacity: 1;
 }
 
 #answer:focus {
-  border-color: var(--teal);
-  box-shadow: 0 0 0 4px rgba(95, 217, 197, 0.16);
+    border-color: var(--teal);
+    box-shadow: 0 0 0 4px #76e2cb12;
 }
 
-/* ---------- 6. Buttons ---------- */
+#answer:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* 5. Buttons ------------------------------------------------------------ */
 button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 18px;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  font: inherit;
-  font-size: 0.9375rem;
-  font-weight: 650;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, filter 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    max-width: 100%;
+    padding: 11px 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--raised);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color 180ms var(--ease), border-color 180ms var(--ease),
+        box-shadow 180ms var(--ease), transform 180ms var(--ease);
 }
 
-button:focus-visible {
-  outline: 3px solid var(--teal);
-  outline-offset: 2px;
+button:focus-visible,
+#recorded-audio:focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 4px;
 }
 
 button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+button:not(:disabled):active {
+    transform: translateY(1px);
 }
 
 #replay-button {
-  justify-self: start;
-  background: transparent;
-  color: var(--text);
-  border-color: var(--line);
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    min-height: 40px;
+    padding: 8px 12px;
+    border-color: #ffffff12;
+    background: #ffffff04;
+    color: var(--muted);
+    font-size: 0.78125rem;
+    font-weight: 600;
 }
 
-#replay-button:hover:not(:disabled) {
-  background: var(--raised);
-}
-
-/* New microphone button */
 #mic-button {
-  justify-self: start;
-  background: var(--raised);
-  color: var(--teal);
-  border-color: var(--line);
+    grid-column: 1;
+    justify-self: start;
+    border-color: #76e2cb40;
+    background: #76e2cb0e;
+    color: var(--teal);
 }
 
-#mic-button:hover:not(:disabled) {
-  background: var(--line);
-}
-
-#mic-button.recording {
-  background: var(--coral);
-  color: var(--ink);
-  border-color: var(--coral);
-}
-
-/* New microphone status message */
-#mic-status {
-  min-height: 1.4em;
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.875rem;
+#transcribe-button {
+    grid-column: 2;
+    align-self: center;
+    min-height: 48px;
+    border-color: #b0b4ff40;
+    background: #b0b4ff0c;
+    color: var(--violet);
 }
 
 #submit-button {
-  justify-self: start;
-  background: linear-gradient(120deg, var(--violet), var(--teal));
-  color: #08122b;
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 52px;
+    border-color: #c2c5ff66;
+    background: linear-gradient(110deg, #bfc2ff, #a4aff4);
+    color: #0b142b;
+    font-size: 0.9375rem;
+    box-shadow: 0 4px 16px #a4aff410, inset 0 1px 0 #ffffff40;
 }
 
-#submit-button:hover:not(:disabled) {
-  filter: brightness(1.08);
+#submit-button::after {
+    content: "\2192";
+    font-size: 1.125rem;
+    font-weight: 500;
 }
 
-#submit-button:active:not(:disabled) {
-  filter: brightness(0.96);
+@media (hover: hover) and (pointer: fine) {
+    #replay-button:hover:not(:disabled) {
+        border-color: #ffffff28;
+        background: #ffffff09;
+        color: var(--text);
+    }
+
+    #mic-button:hover:not(:disabled) {
+        border-color: #76e2cb80;
+        background: #76e2cb1c;
+    }
+
+    #transcribe-button:hover:not(:disabled) {
+        border-color: #b0b4ff80;
+        background: #b0b4ff1c;
+    }
+
+    #submit-button:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 24px #a4aff425;
+    }
+
+    #submit-button:active:not(:disabled) {
+        transform: translateY(0);
+    }
 }
 
-/* ---------- 7. General status message ---------- */
+/* JS must toggle these attributes/classes; CSS cannot detect recording. */
+#mic-button.recording,
+#mic-button[aria-pressed="true"] {
+    border-color: #ffa1ae66;
+    background: #ffa1ae14;
+    color: var(--coral);
+}
+
+#mic-button.recording::after,
+#mic-button[aria-pressed="true"]::after {
+    content: "";
+    flex: 0 0 7px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: recording-pulse 1.6s ease-out infinite;
+}
+
+button[aria-busy="true"] {
+    cursor: progress;
+}
+
+#transcribe-button[aria-busy="true"]::after,
+#submit-button[aria-busy="true"]::after {
+    content: "";
+    flex: 0 0 14px;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 700ms linear infinite;
+}
+
+/* 6. Status and native playback ----------------------------------------- */
+#mic-status,
 #status-message {
-  min-height: 1.4em;
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.875rem;
+    min-height: 1.4em;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
 }
 
-/* ---------- 8. Feedback panel ---------- */
+#mic-status {
+    grid-column: 2;
+    align-self: center;
+    max-width: 32ch;
+    text-align: right;
+}
+
+#status-message {
+    grid-column: 1 / -1;
+    margin-top: -8px;
+    text-align: center;
+}
+
+#recorded-audio {
+    grid-column: 1;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #080f1d;
+    accent-color: var(--teal);
+    color-scheme: dark;
+}
+
+/* Native controls differ by browser; these refinements are best-effort. */
+#recorded-audio::-webkit-media-controls-enclosure,
+#recorded-audio::-webkit-media-controls-panel {
+    border-radius: 11px;
+    background-color: #0d1728;
+}
+
+/* 7. Feedback ----------------------------------------------------------- */
 #feedback-section {
-  display: grid;
-  gap: 14px;
-  animation: reveal 0.35s ease-out;
+    display: grid;
+    gap: 16px;
+    animation: reveal 250ms var(--ease);
 }
 
-#feedback-section:has(#evidence:empty) {
-  display: none;
+#feedback-section > h2 {
+    margin-bottom: 2px;
 }
 
 #evidence,
 #unsupported-claims,
 #tip {
-  margin: 0;
-  padding: 14px 16px;
-  background: var(--ink);
-  border: 1px solid var(--line);
-  border-left-width: 4px;
-  border-radius: var(--radius-md);
-  color: var(--muted);
-  line-height: 1.7;
-  overflow-wrap: anywhere;
+    margin: 0;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-left-width: 3px;
+    border-radius: var(--radius-md);
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
 }
 
 #evidence::before,
 #unsupported-claims::before,
 #tip::before {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--text);
-  font-size: 0.9375rem;
-  font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 0.78125rem;
+    font-weight: 750;
+    line-height: 1.6;
 }
 
 #evidence {
-  border-left-color: var(--teal);
+    border-left-color: var(--teal);
+    background: #76e2cb05;
 }
 
 #evidence::before {
-  content: "Backed by your resume";
+    content: "Resume evidence";
 }
 
 #unsupported-claims {
-  border-left-color: var(--coral);
+    border-left-color: var(--coral);
+    background: #ffa1ae05;
 }
 
 #unsupported-claims::before {
-  content: "Not backed by your resume";
+    content: "Claims to review";
 }
 
 #tip {
-  border-left-color: var(--amber);
+    border-left-color: var(--amber);
+    background: #f4cf8c05;
 }
 
 #tip::before {
-  content: "Next step";
+    content: "Next step";
 }
 
+#evidence:empty,
 #unsupported-claims:empty,
 #tip:empty {
-  display: none;
+    display: none;
 }
 
-/* ---------- 9. Animations ---------- */
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+/* Hide the whole panel only when ALL feedback fields are empty. */
+@supports selector(:has(*)) {
+    #feedback-section:has(#evidence:empty):has(#unsupported-claims:empty):has(#tip:empty) {
+        display: none;
+    }
+}
 
-  to {
-    opacity: 1;
-    transform: none;
-  }
+/* 8. Motion, mobile and high-contrast preferences ------------------------ */
+@keyframes recording-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 #ffa1ae30; }
+    60% { box-shadow: 0 0 0 6px #ffa1ae00; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes reveal {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    :root { --radius-lg: 20px; }
+
+    header { padding-bottom: 24px; }
+
+    #interview-section,
+    .answer_input {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #interview-section { gap: 18px; }
+
+    #replay-button,
+    #mic-button,
+    #transcribe-button,
+    #recorded-audio,
+    #mic-status {
+        grid-column: 1;
+        width: 100%;
+        max-width: 100%;
+        justify-self: stretch;
+    }
+
+    #replay-button { grid-row: auto; min-height: 44px; }
+    #mic-status { text-align: left; }
+    #answer { padding: 16px; }
+    #question { line-height: 1.65; }
+    main { margin-bottom: 40px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
 }
 
-/* ---------- 10. Mobile layout ---------- */
-@media (max-width: 600px) {
-  #replay-button,
-  #mic-button,
-  #submit-button {
-    justify-self: stretch;
-    width: 100%;
-  }
-}
+@media (forced-colors: active) {
+    body,
+    main > section,
+    #question,
+    .answer_input,
+    #answer,
+    button,
+    #recorded-audio {
+        background: Canvas;
+        color: CanvasText;
+        box-shadow: none;
+        border-color: CanvasText;
+    }
 
-#mic-button {
-  justify-self: start;
-  background: var(--raised);
-  color: var(--teal);
-  border-color: var(--line);
+    button:focus-visible,
+    #answer:focus,
+    #recorded-audio:focus-visible {
+        outline: 3px solid Highlight;
+    }
 }
-
-#mic-button:hover:not(:disabled) {
-  background: var(--line);
-}
-
-#mic-status {
-  min-height: 1.4em;
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-
-@media (max-width: 600px) {
-  #mic-button {
-    justify-self: stretch;
-    width: 100%;
-  }
-}
-
