@@ -4,7 +4,12 @@ from pydantic import BaseModel
 from app.services.coach import AnswerCheck,check_answer
 from app.services.rag import retrieve                          
 import numpy as np
-import os 
+import subprocess
+import os
+from fastapi.responses import Response
+
+
+from scripts.gnani_tts import Hear
 import tempfile
 from fastapi.concurrency import run_in_threadpool
 from dotenv import load_dotenv
@@ -14,6 +19,11 @@ from gnani.stt import (
     AuthenticationError,
     InvalidAudioError,
     APIError,
+)
+FFMPEG_PATH = (
+    r"C:\Users\Lenovo\AppData\Local\Microsoft\WinGet\Packages"
+    r"\Gyan.FFmpeg.Shared_Microsoft.Winget.Source_8wekyb3d8bbwe"
+    r"\ffmpeg-9.0.2-full_build-shared\bin\ffmpeg.exe"
 )
 data = np.load('saved_file.npz',allow_pickle=False)
 chunks = data['chunks'].tolist()
@@ -88,11 +98,27 @@ async def Wav_upload(file: UploadFile = File(...)):
         audio_bites = await file.read()  # CHANGED: Now inside try
 
         with tempfile.NamedTemporaryFile(
-            suffix='.wav',
+            suffix='.webm',
             delete=False
         ) as temp:
             temp.write(audio_bites)
-            temp_path = temp.name
+            inp_path = temp.name
+
+        temp_path = inp_path.rsplit(".", 1)[0] + ".wav"
+        await run_in_threadpool(
+            subprocess.run,
+                [
+                    FFMPEG_PATH,
+                    "-y",
+                    "-i", inp_path,
+                    "-ar", "16000",
+                    "-ac", "1",
+                    temp_path,
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
 
         client = GnaniSTTClient()  # CHANGED: Now inside try
 
@@ -132,3 +158,23 @@ async def Wav_upload(file: UploadFile = File(...)):
             os.remove(temp_path)
 
         await file.close()
+@router.post('/hear_question/',response_model=AnswerType)
+def play_question(request:AnswerType):
+    try:
+        audio = Hear(request.question)
+        return Response(
+            content=audio,
+            media_type='audio/wav'
+        )
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        )
+    except Exception as error:
+        print(f"TTS error: {error}")
+
+        raise HTTPException(
+            status_code=502,
+            detail="Could not generate question audio."
+        )

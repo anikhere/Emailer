@@ -39,3 +39,4 @@ for name,lang in clips:
         print(f'{name} | has an api error {e.status_code}==={e}')
     except InvalidAudioError as e:
         print(f'{name}| bad_audio error occured === {e}')
+        
