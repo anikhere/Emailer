@@ -1,0 +1,229 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0c0c">
+  <meta name="description" content="A thoughtful workspace for job outreach, interview preparation, and application tracking.">
+  <title>Intern Bridge — Dashboard</title>
+  <link rel="stylesheet" href="/static/dash.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#dashboard" aria-label="Intern Bridge dashboard">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 24.5h21M8 24.5v-6.1a8 8 0 0 1 16 0v6.1M12 24.5v-5.7a4 4 0 0 1 8 0v5.7" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
+            <path d="M16 6.5v2.2M14.9 7.6h2.2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-name">INTERN <span>BRIDGE</span></span>
+      </a>
+
+      <nav class="primary-nav" id="primary-navigation" aria-label="Main navigation">
+        <a class="nav-link is-current" href="#dashboard" aria-current="page" data-nav-link>Dashboard</a>
+        <a class="nav-link" href="#onboarding-dialog" aria-controls="onboarding-dialog" data-profile-trigger>My Profile</a>
+      </nav>
+
+      <a class="profile-shortcut" href="#onboarding-dialog" aria-label="Open My Profile" aria-haspopup="dialog" aria-controls="onboarding-dialog" data-profile-trigger>
+        <span class="profile-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M5.7 19.2c.6-3.1 2.8-4.7 6.3-4.7s5.7 1.6 6.3 4.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="profile-label">My profile</span>
+        <svg class="profile-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <path d="m4.5 6.25 3.5 3.5 3.5-3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <button class="mobile-nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
+        <svg class="menu-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.5 6h13M3.5 10h13M3.5 14h13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="page-shell" id="dashboard">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Your career workspace</p>
+        <h1 id="hero-title"><span class="title-line">Build your career</span><span class="title-line">with <span class="gold-word">intention.</span></span></h1>
+        <p class="hero-description">Your workspace for smarter outreach, sharper interviews, and a more organized job search.</p>
+      </div>
+
+      <div class="hero-ornament" aria-hidden="true">
+        <svg viewBox="0 0 300 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 145h264" stroke="rgba(198,169,112,.16)" stroke-width="1"/>
+          <path d="M34 145c14-66 57-100 116-100s102 34 116 100" stroke="rgba(198,169,112,.38)" stroke-width="1.15"/>
+          <path d="M70 145c10-42 37-64 80-64s70 22 80 64" stroke="rgba(198,169,112,.21)" stroke-width="1"/>
+          <path d="M113 145c4-18 16-28 37-28s33 10 37 28" stroke="rgba(198,169,112,.16)" stroke-width="1"/>
+          <circle cx="150" cy="45" r="3.3" fill="#c6a970"/>
+          <circle cx="34" cy="145" r="2" fill="#8d7954"/>
+          <circle cx="266" cy="145" r="2" fill="#8d7954"/>
+          <path d="M150 46v23" stroke="rgba(198,169,112,.3)" stroke-width="1" stroke-dasharray="2 4"/>
+        </svg>
+        <span class="ornament-caption">A clearer way forward</span>
+      </div>
+    </section>
+
+    <section class="workspace-section" aria-labelledby="workspace-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="workspace-title">Your workspace</h2>
+          <p>Choose a tool to take your next step.</p>
+        </div>
+        <span class="section-index">TOOLS <span>01 — 03</span></span>
+      </div>
+
+      <div class="services-grid">
+        <a class="service-card" href="/applicant" data-service-link data-service="emailer" data-destination="/applicant" aria-label="Emailer. Create personalized job outreach and connect with recruiters more effectively. Open Emailer.">
+          <div class="service-card-top">
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3.2" y="5" width="17.6" height="14" rx="2.1" stroke="currentColor" stroke-width="1.35"/>
+                <path d="m4.2 6.4 7.8 6.1 7.8-6.1" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17.5 3.1v2.2M16.4 4.2h2.2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="service-index">01 / 03</span>
+          </div>
+          <span class="service-category">Outreach</span>
+          <h3>Emailer</h3>
+          <p class="service-description">Create personalized job outreach and connect with recruiters more effectively.</p>
+          <span class="service-action"><span>Open Emailer <span aria-hidden="true">→</span></span><span class="action-arrow" aria-hidden="true">↗</span></span>
+        </a>
+
+        <a class="service-card" href="/interview-coach" data-service-link data-service="interview-coach" data-destination="/interview-coach" aria-label="Interview Coach. Practice interview questions tailored to your resume and improve your answers. Start Practicing.">
+          <div class="service-card-top">
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.1 5.2h13.8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7.1l-4.2 3v-3H5.1a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
+                <path d="m12 7.5.8 2.1 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.1Z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round"/>
+                <path d="M17.5 4v2M16.5 5h2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="service-index">02 / 03</span>
+          </div>
+          <span class="service-category">Preparation</span>
+          <h3>Interview Coach</h3>
+          <p class="service-description">Practice interview questions tailored to your resume and improve your answers.</p>
+          <span class="service-action"><span>Start Practicing <span aria-hidden="true">→</span></span><span class="action-arrow" aria-hidden="true">↗</span></span>
+        </a>
+
+        <a class="service-card" href="/application-tracker" data-service-link data-service="application-tracker" data-destination="/application-tracker" aria-label="Application Tracker. Track applications, monitor progress, and keep your job search organized. View Tracker.">
+          <div class="service-card-top">
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 4.3h8a2 2 0 0 1 2 2v13.4H6V6.3a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
+                <path d="M9 4.3v-1h6v1M9.1 9.2h5.8M9.1 12.4h2.8M9.1 15.6h2.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <path d="m14 15.1 1.3 1.3 2.1-2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="service-index">03 / 03</span>
+          </div>
+          <span class="service-category">Organization</span>
+          <h3>Application Tracker</h3>
+          <p class="service-description">Track applications, monitor progress, and keep your job search organized.</p>
+          <span class="service-action"><span>View Tracker <span aria-hidden="true">→</span></span><span class="action-arrow" aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <span class="footer-brand">INTERN BRIDGE</span>
+      <span>A focused place for your next move.</span>
+    </footer>
+  </main>
+
+  <dialog class="onboarding-dialog" id="onboarding-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <div class="dialog-inner">
+      <div class="dialog-topline">
+        <p class="dialog-eyebrow">Personalize your workspace</p>
+        <button class="dialog-close" type="button" aria-label="Close onboarding" data-close-dialog>
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="dialog-heading">
+        <h2 id="dialog-title">Your journey starts here.</h2>
+        <p id="dialog-description">Create your profile once to personalize your experience across Intern Bridge.</p>
+      </div>
+
+      <!-- Frontend-only form: connect to POST /api/students when API integration is ready. -->
+      <form class="profile-form" id="profile-form" method="dialog" data-endpoint="/api/students">
+        <div class="field-grid">
+          <label class="field" for="full-name">
+            <span class="field-label">Full name <span class="required-mark" aria-hidden="true">*</span></span>
+            <input id="full-name" name="full_name" type="text" autocomplete="name" placeholder="e.g. Aanya Shah" required>
+          </label>
+
+          <label class="field" for="email-address">
+            <span class="field-label">Email <span class="required-mark" aria-hidden="true">*</span></span>
+            <input id="email-address" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          </label>
+
+          <label class="field" for="phone-number">
+            <span class="field-label">Phone number <span class="optional-label">Optional</span></span>
+            <input id="phone-number" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210">
+          </label>
+
+          <label class="field" for="linkedin-url">
+            <span class="field-label">LinkedIn URL <span class="optional-label">Optional</span></span>
+            <input id="linkedin-url" name="linkedin_url" type="url" autocomplete="url" placeholder="https://linkedin.com/in/you">
+          </label>
+
+          <label class="field" for="github-url">
+            <span class="field-label">GitHub URL <span class="optional-label">Optional</span></span>
+            <input id="github-url" name="github_url" type="url" autocomplete="url" placeholder="https://github.com/you">
+          </label>
+        </div>
+
+        <fieldset class="resume-fieldset">
+          <legend class="resume-legend"><span>Resume <span class="optional-label">Upload a file or paste text</span></span></legend>
+          <label class="resume-upload" for="resume-file">
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 13.5V3.8m0 0L6.6 7.2M10 3.8l3.4 3.4M4.2 12.4v3.1c0 .8.6 1.4 1.4 1.4h8.8c.8 0 1.4-.6 1.4-1.4v-3.1" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="upload-copy">
+              <strong id="resume-file-name" aria-live="polite">Choose a file</strong>
+              <small>PDF or Word document</small>
+            </span>
+            <span class="browse-label" aria-hidden="true">Browse</span>
+            <input class="resume-file-input" id="resume-file" name="resume_file" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-label="Upload a resume file">
+          </label>
+          <div class="resume-or" aria-hidden="true">OR PASTE RESUME TEXT</div>
+          <label class="field" for="resume-text">
+            <span class="field-label"><span class="visually-hidden">Resume text</span></span>
+            <textarea class="resume-textarea" id="resume-text" name="resume_text" rows="3" placeholder="Paste your resume text here, if you prefer."></textarea>
+          </label>
+          <p class="resume-help">Either option is fine. You can also add your resume later.</p>
+        </fieldset>
+
+        <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+
+        <div class="dialog-actions">
+          <p class="form-note"><strong>Profile setup only.</strong> No password or sign-in step. This preview does not send your details.</p>
+          <div class="dialog-action-buttons">
+            <button class="button-secondary" type="button" data-close-dialog>Skip for now</button>
+            <button class="button-primary" type="submit">
+              Create My Profile
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.2 8h9.6M8.4 3.6 12.8 8l-4.4 4.4" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script src="/static/dash.js" defer></script>
+</body>
+</html>

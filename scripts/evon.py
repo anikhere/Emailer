@@ -9,7 +9,7 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, UploadFile, File
 
 load_dotenv()
-client = Client(api_key=os.getenv('api_key'))
+client = Client(api_key=os.getenv('GEMINI_API_KEY'))
 
 route = APIRouter(
     prefix='/interview',
@@ -25,15 +25,8 @@ class InterviewQuestions(BaseModel):
 class Resume(BaseModel):
     resume: str
 
-# CHANGED: Renamed the function to match its purpose.
 def build_question_prompt(res_text):
-    if not res_text.strip():
-        raise HTTPException(
-            status_code=400,
-            detail='the resume cant be empty'
-        )
-
-    # CHANGED: Replaced coding instructions with interview-question instructions and included the resume.
+    
     prompt = f"""
     Generate exactly three distinct interview questions based on the candidate's resume.
 
@@ -46,23 +39,19 @@ def build_question_prompt(res_text):
     Resume:
     {res_text}
     """
-
-    # The Gemini API call remains commented out; this function only builds the prompt.
-    # response = client.models.generate_content(
-    #     model='gemini-3.5-flash-lite',
-    #     contents=prompt,
-    #     response_mime_type='application/json'
-    # )
-
     return prompt
-@route.get(
+@route.post(
     '/generate',
     response_model=InterviewQuestions,
     status_code=200
 )
-
-def gen_ques(resume):
-    prompt = build_question_prompt(resume)
+def gen_ques(resume:Resume):
+    if not resume.resume.strip():
+        raise HTTPException(
+            status_code=400,
+            detail='the resume cant be empty'
+        )
+    prompt = build_question_prompt(resume.resume.strip())
     response = client.models.generate_content(
         model = 'gemini-3.5-flash-lite',
         contents = prompt,
@@ -75,14 +64,16 @@ def gen_ques(resume):
     )
     return InterviewQuestions.model_validate_json(
         response.text
-    )
+    )        
+
+
 if __name__ == "__main__":
     sample_resume = """
     Python developer with experience building REST APIs using FastAPI.
     Worked with PostgreSQL for database storage.
     """
 
-    result = gen_ques(sample_resume)
+    result = gen_ques(Resume(resume=sample_resume))
     print(result.model_dump())
 
     assert len(result.questions) == 3

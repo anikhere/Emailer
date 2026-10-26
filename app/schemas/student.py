@@ -8,6 +8,10 @@ from app.database.tables import Student
 from sqlalchemy import select
 from fastapi import APIRouter, Depends, HTTPException       
 
+class student_profile(BaseModel):
+    name:str
+    email:str
+    resume_text: str
 
 class StudentCreate(BaseModel):
     name: str
@@ -46,7 +50,16 @@ def create_Student(student:StudentCreate,db:Session = Depends(get_db)):
     db.commit()
     db.refresh(new_student)
     return new_student
-    
+
+@router.get('/{student_id}',response_model=student_profile)
+def get_students_cred(student_id:int,db:Session = Depends(get_db)):
+    stud = db.get(Student,student_id)
+    if stud is None:
+        raise HTTPException(
+            status_code=404,
+            detail='the student doesnt exists'
+        )
+    return stud 
 
     
     

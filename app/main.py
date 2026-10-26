@@ -1,9 +1,12 @@
 from fastapi import FastAPI
+from sqlalchemy import text
+from app.database.connection import engine
 from app.schemas.student import router as students_router
 from app.schemas.application import router as applications_router
 from app.services.llm import router as llm_router
 from app.gmail.main_gmail import router as draft_router
 from app.database.tracker import router as track_router
+from scripts.evon import route as evon_router
 from pathlib import Path
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -21,6 +24,7 @@ app.include_router(llm_router)
 app.include_router(draft_router)
 app.include_router(track_router)
 app.include_router(inter_router)
+app.include_router(evon_router)
 
 @app.get('/health')
 def health_check():
@@ -29,7 +33,7 @@ def health_check():
 @app.get('/',include_in_schema=False)
 def frontend():
     return FileResponse(
-        BASE_DIR / 'static' / 'index.html'
+        BASE_DIR / 'static' / 'dash.html'
     )
 @app.get('/applicant',include_in_schema=False)
 def applicant_page():
@@ -44,3 +48,28 @@ def draft_page():
 @app.get('/interview')
 def open_inter():
     return FileResponse(BASE_DIR/'static'/'interview.html')
+@app.get('/dash')
+def dashboard():
+    return FileResponse(BASE_DIR/'static'/'dash.html')
+@app.get("/debug-db")
+def debug_db():
+    with engine.connect() as connection:
+        result = connection.execute(text("""
+            SELECT current_database(),
+                   current_schema(),
+                   current_user
+        """))
+        return dict(result.mappings().first())
+
+@app.get("/debug-student/{student_id}")
+def debug_student(student_id: int):
+    with engine.connect() as connection:
+        result = connection.execute(
+            text("""
+                SELECT id, name, email
+                FROM public.students
+                WHERE id = :student_id
+            """),
+            {"student_id": student_id}
+        )
+        return result.mappings().first() or {"message": "Student not found"}

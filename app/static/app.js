@@ -1,7 +1,7 @@
 const student_id = sessionStorage.getItem("student_id");
 
 if (!student_id) {
-    window.location.href = "/";
+    window.location.href = "/dash";
 }
 
 document.querySelector("#student-information").textContent =

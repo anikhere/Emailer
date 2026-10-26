@@ -4,7 +4,6 @@ from app.database.connection import get_db
 from app.database.tables import Tracker
 from pydantic import BaseModel
 from typing import Literal
-
 class Tracker_Create(BaseModel):
     phase: Literal['visited', 'student_submitted', 'applicant_submitted', 'draft_success', 'gmail_opened']
     user_id: str
