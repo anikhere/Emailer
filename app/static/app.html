@@ -54,17 +54,11 @@
             placeholder="Backend Engineering Intern"
             required
         >
+        <label for="recipient-name">Recipient name (optional)</label>
+<input id="recipient-name" type="text">
 
-
-        <label for="recipient-name">
-            Recipient name — optional
-        </label>
-
-        <input
-            id="recipient-name"
-            type="text"
-            placeholder="Harshil Shah"
-        >
+<label for="job-description">Job description (optional)</label>
+<textarea id="job-description"></textarea>
 
 
         <label for="recipient-email">
@@ -79,32 +73,42 @@
         >
 
 
-        <label for="job-description">
-            Job description
-        </label>
-
-        <textarea
-            id="job-description"
-            placeholder="Paste the job description..."
-            required
-        ></textarea>
 
 
+<div class="voice-input">
+    <label for="transcript">Email Instructions</label>
+
+    <textarea
+        id="transcript"
+        name="transcript"
+        rows="4"
+        placeholder="Describe the email you want to create..."
+    ></textarea>
+
+    <div class="voice-controls">
         <button
-            id="application-button"
-            type="submit"
+            type="button"
+            id="speak-btn"
         >
-            Create application
+            🎙 Speak
         </button>
 
+        <span id="voice-status" role="status" aria-live="polite">
+            Click Speak to start recording.
+        </span>
+    </div>
+</div>
+<button id="application-button" type="submit">
+    Create application
+</button>
 
-        <p id="application-status"></p>
-
+<p id="application-status" role="status"></p>
     </form>
     </main>
 
     <script src="/static/tracker.js"></script>
     <script src="/static/app.js"></script>
+    <script src="/static/voice.js"></script>
 
 </body>
 

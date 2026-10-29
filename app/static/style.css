@@ -422,3 +422,21 @@ button:disabled {
     transform: none;
   }
 }
+#word-counter {
+    margin: 6px 0 0;
+    color: #c3a467;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: right;
+}
+
+#word-warning {
+    margin: 4px 0 0;
+    color: #d99b92;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#word-warning:empty {
+    display: none;
+}

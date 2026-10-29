@@ -4,9 +4,12 @@ from app.database.connection import engine
 from app.schemas.student import router as students_router
 from app.schemas.application import router as applications_router
 from app.services.llm import router as llm_router
+from scripts.accept_pdf import router as pdf_router
 from app.gmail.main_gmail import router as draft_router
 from app.database.tracker import router as track_router
 from scripts.evon import route as evon_router
+from scripts.gnani_stt import router as stt_router 
+
 from pathlib import Path
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -25,6 +28,8 @@ app.include_router(draft_router)
 app.include_router(track_router)
 app.include_router(inter_router)
 app.include_router(evon_router)
+app.include_router(pdf_router)
+app.include_router(stt_router)
 
 @app.get('/health')
 def health_check():

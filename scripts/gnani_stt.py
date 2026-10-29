@@ -1,42 +1,78 @@
-from dotenv import load_dotenv
-import numpy as np
-from app.services.rag import retrieve                          
-from pathlib import Path 
+from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi.concurrency import run_in_threadpool
+from tempfile import NamedTemporaryFile
+import subprocess
+
+from pathlib import Path
+import os 
 from gnani.stt import (
     GnaniSTTClient,
     AuthenticationError,
     InvalidAudioError,
     APIError,
 )
-
-BASE = Path(__file__).resolve().parent.parent
-BASE = BASE / '.wav_files'
-print(BASE)
+from dotenv import load_dotenv
 load_dotenv()
-client = GnaniSTTClient()
-clips = [
-    ('docker_english.wav','en-IN')
-    # ('docker_gujrati.wav','gu-IN'),
-    # ('docker_hinglish.wav','hi-IN')
-]
-data = np.load('saved_file.npz',allow_pickle=False)
-chunks = data['chunks'].tolist()
-vectors = data['vector']
+router = APIRouter(prefix='/api')
 
-for name,lang in clips:
-    path = BASE/name
-    if not path.exists():
-        print(f'missing ==={path}')
-        continue
-    try :
-        result = client.transcribe(str(path),language_code=lang)
-        print(f'{lang} | {name} | {result['transcript']}')
-        answer = retrieve(result['transcript'],vectors=vectors,pics=chunks,k=2)
-        print(f'the starboy is {answer[0][:60].replace('\n','')}')
+client = GnaniSTTClient()
+@router.post('/stt_')
+async def convert_to_text(file:UploadFile = File(...)):
+    if not file.content_type or not file.content_type.startswith("audio/"):
+        raise HTTPException(400, "Please upload an audio file.")
+    content = await file.read()
+    if not content:
+        raise HTTPException(400,'the audio file is empty')
+    if len(content)>10*1024*1024:
+        raise HTTPException(413,'audio must be 10MB or smaller')
+    suffix = Path(file.filename or 'recording.webm').suffix
+    temp_path = None
+    try:
+        with NamedTemporaryFile(
+            delete = False,
+            suffix = suffix
+        )as temp:
+            temp.write(content)
+            temp_path = temp.name
+            wav_path = temp_path + ".wav"
+
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-i", temp_path,
+                "-ac", "1",
+                "-ar", "16000",
+                "-c:a", "pcm_s16le",
+                wav_path,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        result = await run_in_threadpool(
+            client.transcribe,
+            wav_path,
+            language_code='en-IN'
+        )
+        transcript = result.get('transcript','').strip()
+        if not transcript:
+            raise HTTPException(422,'No speech detected ')
+        return {'transcript':transcript}
     except AuthenticationError:
-        print(f'the key problem is not found in the api')
+        raise HTTPException(503, "Speech service authentication failed.")
+    except InvalidAudioError:
+        raise HTTPException(400, "The audio format is invalid or unsupported.")
     except APIError as e:
-        print(f'{name} | has an api error {e.status_code}==={e}')
-    except InvalidAudioError as e:
-        print(f'{name}| bad_audio error occured === {e}')
+        raise HTTPException(
+            502,
+            f"Speech service error (status {getattr(e, 'status_code', 'unknown')}).",
+        )
+    finally:
+        if temp_path and os.path.exists(temp_path):
+            os.remove(temp_path)
+        await file.close()
+
+
+
+
         

@@ -48,14 +48,13 @@ class Applicant(Base):
 
     company_name: Mapped[str | None] = mapped_column(String, nullable=True)
     job_role: Mapped[str] = mapped_column(String, nullable=False)
-    job_description: Mapped[str] = mapped_column(Text, nullable=False)
-    recipient_name: Mapped[str] = mapped_column(String, nullable=False)
+    job_description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    recipient_name: Mapped[str | None] = mapped_column(String, nullable=True)
     recipient_email: Mapped[str] = mapped_column(String, nullable=False)
     generated_subject: Mapped[str] = mapped_column(String, nullable=True)
     generated_body: Mapped[str] = mapped_column(Text, nullable=True)
     final_subject: Mapped[str | None] = mapped_column(String, nullable=True)
     final_body: Mapped[str | None] = mapped_column(Text, nullable=True)
-
     status: Mapped[str] = mapped_column(
         String,
         default="Pending",

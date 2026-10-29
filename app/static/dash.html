@@ -183,28 +183,70 @@
           </label>
         </div>
 
-        <fieldset class="resume-fieldset">
-          <legend class="resume-legend"><span>Resume <span class="optional-label">Upload a file or paste text</span></span></legend>
-          <label class="resume-upload" for="resume-file">
-            <span class="upload-icon" aria-hidden="true">
-              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 13.5V3.8m0 0L6.6 7.2M10 3.8l3.4 3.4M4.2 12.4v3.1c0 .8.6 1.4 1.4 1.4h8.8c.8 0 1.4-.6 1.4-1.4v-3.1" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span class="upload-copy">
-              <strong id="resume-file-name" aria-live="polite">Choose a file</strong>
-              <small>PDF or Word document</small>
-            </span>
-            <span class="browse-label" aria-hidden="true">Browse</span>
-            <input class="resume-file-input" id="resume-file" name="resume_file" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-label="Upload a resume file">
-          </label>
-          <div class="resume-or" aria-hidden="true">OR PASTE RESUME TEXT</div>
-          <label class="field" for="resume-text">
-            <span class="field-label"><span class="visually-hidden">Resume text</span></span>
-            <textarea class="resume-textarea" id="resume-text" name="resume_text" rows="3" placeholder="Paste your resume text here, if you prefer."></textarea>
-          </label>
-          <p class="resume-help">Either option is fine. You can also add your resume later.</p>
-        </fieldset>
+        
+<fieldset class="resume-fieldset">
+  <legend class="resume-legend">
+    <span>
+      Resume
+      <span class="optional-label">Upload a PDF or paste text</span>
+    </span>
+  </legend>
+
+  <label class="resume-upload" for="resume-file">
+    <span class="upload-icon" aria-hidden="true">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 13.5V3.8m0 0L6.6 7.2M10 3.8l3.4 3.4M4.2 12.4v3.1c0 .8.6 1.4 1.4 1.4h8.8c.8 0 1.4-.6 1.4-1.4v-3.1" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+
+    <span class="upload-copy">
+      <strong id="resume-file-name" aria-live="polite">Choose a PDF</strong>
+      <small>PDF document · Maximum 5 MB</small>
+    </span>
+
+    <span class="browse-label" aria-hidden="true">Browse</span>
+
+    <input
+      class="resume-file-input"
+      id="resume-file"
+      name="resume_file"
+      type="file"
+      accept=".pdf,application/pdf"
+      aria-label="Upload a resume PDF"
+    >
+  </label>
+
+  <p id="resume_status" role="status" aria-live="polite">
+    No file selected.
+  </p>
+
+  <button
+    class="button-secondary"
+    id="upload-resume-button"
+    type="button"
+  >
+    Upload Resume
+  </button>
+
+  <div class="resume-or" aria-hidden="true">OR PASTE RESUME TEXT</div>
+
+  <label class="field" for="resume-text">
+    <span class="field-label">
+      <span class="visually-hidden">Resume text</span>
+    </span>
+    <textarea
+      class="resume-textarea"
+      id="resume-text"
+      name="resume_text"
+      rows="5"
+      placeholder="Paste your resume text here, if you prefer."
+    ></textarea>
+  </label>
+
+  <p class="resume-help">
+    Review your resume text carefully before confirming your profile.
+  </p>
+</fieldset>
 
         <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
 
@@ -225,5 +267,6 @@
   </dialog>
 
   <script src="/static/dash.js" defer></script>
+  <script></script>
 </body>
 </html>

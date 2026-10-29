@@ -8,11 +8,10 @@ from pydantic import BaseModel, ConfigDict
 class ApplicationCreate(BaseModel):
     company_name: str
     job_role: str
-    job_description: str
-    recipient_name: str
-    recipient_email: str
+    job_description: str | None = None
+    recipient_name: str | None = None
+    recipient_email: str 
     
-
 
 class ApplicationResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -53,3 +52,18 @@ def create_application(
     db.commit()
     db.refresh(new_applicant)
     return new_applicant
+@router.get('/{applicant_id}/resume')
+def Fetch_resume(
+    applicant_id:int,
+    db:Session = Depends(get_db)):
+    applicant = db.get(Applicant,applicant_id)
+    if applicant is None:
+        raise HTTPException(
+            status_code=404,
+            detail='Application not Found'
+        )
+    return {
+        'application':applicant.id,
+        'student_id':applicant.student_id,
+        'resume':applicant.student.resume_text
+    }

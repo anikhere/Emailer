@@ -1318,3 +1318,232 @@
         animation-iteration-count: 1 !important;
       }
     }
+
+/* Resume upload section */
+.resume-fieldset {
+  min-width: 0;
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid #d8e1dc;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.resume-legend {
+  padding: 0 8px;
+  color: #174c38;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.optional-label {
+  display: block;
+  margin-top: 5px;
+  color: #6b7280;
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
+/* PDF selection area */
+.resume-upload {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px;
+  border: 1px dashed #9ab5a5;
+  border-radius: 10px;
+  background: #f7faf8;
+  cursor: pointer;
+}
+
+.resume-upload strong {
+  overflow-wrap: anywhere;
+  color: #24352c;
+  font-size: 0.9rem;
+}
+
+.resume-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.resume-file-input:focus-visible + .browse-label {
+  outline: 2px solid #174c38;
+  outline-offset: 3px;
+}
+
+.browse-label {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #174c38;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Status and upload button */
+#resume_status {
+  margin: 10px 0;
+  color: #59665e;
+  font-size: 0.85rem;
+}
+
+#upload-resume-button {
+  margin: 4px 0 14px;
+}
+
+#upload-resume-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+/* Separator */
+.resume-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: #7b857e;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.resume-or::before,
+.resume-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e1e7e3;
+}
+
+/* Resume text area */
+.resume-textarea {
+  display: block;
+  width: 100%;
+  min-height: 130px;
+  padding: 12px;
+  border: 1px solid #d5ded8;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #24352c;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.resume-textarea:focus {
+  border-color: #287653;
+  outline: 3px solid #28765320;
+}
+
+.resume-help {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  .resume-fieldset {
+    padding: 14px;
+  }
+
+  .resume-upload {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .browse-label {
+    align-self: flex-start;
+  }
+}
+
+/* Gold resume upload box */
+.resume-fieldset {
+  border: 1.5px solid #c9a44c;
+  border-radius: 16px;
+  padding: 22px;
+  background: linear-gradient(145deg, #fffdf5, #fff8e5);
+  box-shadow: 0 5px 18px rgba(160, 120, 35, 0.09);
+}
+
+.resume-legend {
+  color: #765416;
+  font-weight: 700;
+}
+
+.resume-upload {
+  border: 1.5px dashed #c9a44c;
+  border-radius: 12px;
+  background: #fffaf0;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.resume-upload:hover {
+  background: #fff2cc;
+  border-color: #a77b20;
+}
+
+.resume-upload strong {
+  color: #594117;
+}
+
+.browse-label {
+  background: #8b691e;
+  color: #ffffff;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+#upload-resume-button {
+  background: linear-gradient(135deg, #174c38, #236b4c);
+  color: #ffffff;
+  border: 1px solid #174c38;
+  border-radius: 9px;
+  padding: 11px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(23, 76, 56, 0.18);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#upload-resume-button:hover:not(:disabled) {
+  background: #103b2b;
+  box-shadow: 0 6px 14px rgba(23, 76, 56, 0.25);
+  transform: translateY(-1px);
+}
+
+#upload-resume-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.resume-or::before,
+.resume-or::after {
+  background: #e8d8ad;
+}
+
+.resume-textarea {
+  border: 1px solid #d8c38c;
+  border-radius: 10px;
+}
+
+.resume-textarea:focus {
+  border-color: #a77b20;
+  outline: 3px solid rgba(201, 164, 76, 0.2);
+}
+
+#resume_status {
+  color: #765416;
+}

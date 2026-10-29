@@ -1,7 +1,8 @@
 const applicationId = sessionStorage.getItem(
     "application_id"
 );
-
+const word_counter = document.querySelector('#word-counter')
+const word_warning = document.querySelector('#word-warning')
 const recipientEmail = sessionStorage.getItem(
     "recipient_email"
 );
@@ -206,3 +207,22 @@ async function saveAndOpenGmail() {
         saveButton.disabled = false;
     }
 }
+function CleanWords(text){
+    const clear = text.trim().split(/\s+/).filter(Boolean).length
+    return clear
+}
+function count_words(){
+    const clean = CleanWords(bodyInput.value)
+    word_warning.textContent = ''
+    word_counter.textContent = `${clean} / 150`
+    if (clean>150){
+        word_warning.textContent = `words out of limits`
+        saveButton.disabled = true
+    }
+    else{
+        word_warning.textContent = '';
+        saveButton.disabled = false
+    }
+}
+bodyInput.addEventListener('input',count_words)
+count_words()
