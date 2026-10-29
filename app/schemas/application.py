@@ -8,10 +8,9 @@ from pydantic import BaseModel, ConfigDict
 class ApplicationCreate(BaseModel):
     company_name: str
     job_role: str
-    job_description: str | None = None
-    recipient_name: str | None = None
-    recipient_email: str 
-    
+    recipient_email: str
+    job_description: str = ""
+    recipient_name: str = "Hiring Team"    
 
 class ApplicationResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)

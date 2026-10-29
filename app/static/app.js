@@ -19,10 +19,7 @@ applicationForm.addEventListener("submit", async function (event) {
         company_name: document.querySelector("#company-name").value.trim(),
         job_role: document.querySelector("#job-role").value.trim(),
         recipient_email: document.querySelector("#recipient-email").value.trim(),
-        recipient_name:
-            document.querySelector("#recipient-name").value.trim() || null,
-        job_description:
-            document.querySelector("#job-description").value.trim() || null
+        
     };
 
     applicationButton.disabled = true;
