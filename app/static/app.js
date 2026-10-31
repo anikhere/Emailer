@@ -1,6 +1,7 @@
 
 const student_id = sessionStorage.getItem("student_id");
 
+
 if (!student_id) {
     window.location.href = "/dash";
 }
@@ -14,11 +15,14 @@ const applicationStatus = document.querySelector("#application-status");
 
 applicationForm.addEventListener("submit", async function (event) {
     event.preventDefault();
+    const emailInstructions =
+        document.querySelector("#transcript").value.trim();
 
     const applicationData = {
         company_name: document.querySelector("#company-name").value.trim(),
         job_role: document.querySelector("#job-role").value.trim(),
         recipient_email: document.querySelector("#recipient-email").value.trim(),
+        instructions:emailInstructions|| '',
         
     };
 
@@ -59,6 +63,7 @@ applicationForm.addEventListener("submit", async function (event) {
             "recipient_email",
             applicationData.recipient_email
         );
+        sessionStorage.setItem('email_prompt',emailInstructions)
 
         window.location.href = "/draft";
 

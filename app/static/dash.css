@@ -1468,82 +1468,118 @@
   }
 }
 
-/* Gold resume upload box */
+/* Resume upload — dark theme override */
+
 .resume-fieldset {
-  border: 1.5px solid #c9a44c;
-  border-radius: 16px;
-  padding: 22px;
-  background: linear-gradient(145deg, #fffdf5, #fff8e5);
-  box-shadow: 0 5px 18px rgba(160, 120, 35, 0.09);
+    margin: 22px 0;
+    padding: 20px;
+    border: 1.5px solid rgba(201, 164, 76, 0.45);
+    border-radius: 14px;
+    background: rgba(201, 164, 76, 0.05);
 }
 
 .resume-legend {
-  color: #765416;
-  font-weight: 700;
+    padding: 0 8px;
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+}
+
+.optional-label {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 400;
 }
 
 .resume-upload {
-  border: 1.5px dashed #c9a44c;
-  border-radius: 12px;
-  background: #fffaf0;
-  transition: background 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px dashed rgba(201, 164, 76, 0.4);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: background 180ms, border-color 180ms;
 }
 
 .resume-upload:hover {
-  background: #fff2cc;
-  border-color: #a77b20;
+    background: rgba(201, 164, 76, 0.08);
+    border-color: rgba(201, 164, 76, 0.65);
 }
 
 .resume-upload strong {
-  color: #594117;
+    color: var(--text);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.resume-file-input:focus-visible + .browse-label {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
 }
 
 .browse-label {
-  background: #8b691e;
-  color: #ffffff;
-  padding: 9px 16px;
-  border-radius: 8px;
-  font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 7px;
+    background: rgba(201, 164, 76, 0.16);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+#resume_status {
+    margin: 10px 0;
+    color: var(--muted);
+    font-size: 11px;
 }
 
 #upload-resume-button {
-  background: linear-gradient(135deg, #174c38, #236b4c);
-  color: #ffffff;
-  border: 1px solid #174c38;
-  border-radius: 9px;
-  padding: 11px 20px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(23, 76, 56, 0.18);
-  transition: transform 0.2s, box-shadow 0.2s;
+    margin: 4px 0 14px;
+    padding: 9px 16px;
+    border: 1px solid rgba(201, 164, 76, 0.35);
+    border-radius: 8px;
+    background: rgba(201, 164, 76, 0.14);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 600;
 }
 
 #upload-resume-button:hover:not(:disabled) {
-  background: #103b2b;
-  box-shadow: 0 6px 14px rgba(23, 76, 56, 0.25);
-  transform: translateY(-1px);
+    background: rgba(201, 164, 76, 0.22);
 }
 
 #upload-resume-button:disabled {
-  opacity: 0.6;
-  cursor: wait;
+    opacity: 0.55;
+    cursor: wait;
+}
+
+.resume-or {
+    color: var(--muted);
 }
 
 .resume-or::before,
 .resume-or::after {
-  background: #e8d8ad;
+    background: rgba(217, 207, 183, 0.14);
 }
 
 .resume-textarea {
-  border: 1px solid #d8c38c;
-  border-radius: 10px;
+    background: #101211;
+    color: var(--text);
+    border: 1px solid rgba(217, 207, 183, 0.16);
+    border-radius: 9px;
 }
 
 .resume-textarea:focus {
-  border-color: #a77b20;
-  outline: 3px solid rgba(201, 164, 76, 0.2);
+    border-color: rgba(201, 164, 76, 0.6);
+    outline: 3px solid rgba(201, 164, 76, 0.15);
 }
 
-#resume_status {
-  color: #765416;
+.resume-help {
+    color: var(--muted);
+    font-size: 10px;
 }

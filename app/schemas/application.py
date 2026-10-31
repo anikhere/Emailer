@@ -11,10 +11,10 @@ class ApplicationCreate(BaseModel):
     recipient_email: str
     job_description: str = ""
     recipient_name: str = "Hiring Team"    
+    instructions :str = ''
 
 class ApplicationResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
     id: int
     student_id: int
     company_name: str

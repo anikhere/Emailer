@@ -83,6 +83,7 @@ async function generateDraft() {
         track('draft_success')
         subjectInput.value = responseData.subject;
         bodyInput.value = responseData.body;
+        count_words()
 
         statusMessage.textContent =
             "Draft generated. Review it before continuing.";
@@ -92,7 +93,7 @@ async function generateDraft() {
         generateButton.textContent =
             "Regenerate draft";
 
-        saveButton.disabled = false;
+        //saveButton.disabled = false;
     } catch (error) {
         console.log("DRAFT ERROR:", error);
         console.log("ERROR MESSAGE:", error.message);
@@ -204,7 +205,8 @@ async function saveAndOpenGmail() {
         statusMessage.textContent = error.message;
         statusMessage.className = "error";
     } finally {
-        saveButton.disabled = false;
+        count_words();
+
     }
 }
 function CleanWords(text){

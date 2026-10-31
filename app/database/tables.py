@@ -64,6 +64,7 @@ class Applicant(Base):
 
     model_name: Mapped[str] = mapped_column(String, nullable=True)
     prompt_version: Mapped[str] = mapped_column(String, nullable=True)
+    instructions: Mapped[str] = mapped_column(Text,default='',server_default='',nullable=False)
 
     generation_latency_ms: Mapped[int | None] = mapped_column(nullable=True)
 

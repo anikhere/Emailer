@@ -217,7 +217,7 @@
 
       sessionStorage.setItem(STUDENT_ID_KEY, String(result.id));
 
-      status.textContent = `Profile saved! Student ID: ${result.id}`;
+      status.textContent = `Profile saved! `;
 
       const destination = sessionStorage.getItem(DESTINATION_KEY);
 

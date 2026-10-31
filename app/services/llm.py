@@ -51,17 +51,16 @@ def generate_draft(
     )
 
     prompt = f"""
-Create a professional job application email under 150 words.
+Student's email instructions:
+{application.instructions}
 
-Rules:
-- Use only the information provided below.
-- Do not invent any skills, experience, links or facts.
-- Do not turn job requirements into student experience.
-- Keep the email concise and professional.
-- Proofread spelling and spacing.
-- Return plain text without HTML entities.
-- Return only JSON containing subject and body.
-
+Instructions rules:
+- Create a professional job application email with a maximum of 120 words.
+- Never exceed 120 words, including the greeting and sign-off.
+- Follow the student's instructions when writing the email.
+- Treat them as writing preferences, not as resume facts.
+- Never invent skills, experience or achievements.
+- Do not copy the instructions directly into the email.
 Student:
 Name: {student.name}
 {github_line}
