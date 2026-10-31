@@ -189,14 +189,26 @@ async function saveAndOpenGmail() {
         );
 
         if (gmailWindow) {
-            gmailWindow.location.href =
-                gmailUrl.toString();
-        }
+    gmailWindow.location.href = gmailUrl.toString();
 
-        statusMessage.textContent =
-            "Draft saved. Gmail has been opened.";
+    if (typeof track === "function") {
+        track("gmail_opened");
+    }
 
-        statusMessage.className = "success";
+    sessionStorage.setItem("final_body", responseData.final_body);
+    sessionStorage.setItem("final_subject", responseData.final_subject);
+
+    window.location.href = "/complete";
+} else {
+    if (typeof track === "function") {
+        track("popup_blocked");
+    }
+
+    statusMessage.textContent =
+        "Draft saved, but your browser blocked the Gmail tab. Please allow pop-ups.";
+
+    statusMessage.className = "error";
+}
     } catch (error) {
         if (gmailWindow) {
             gmailWindow.close();

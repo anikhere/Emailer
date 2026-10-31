@@ -64,6 +64,17 @@ applicationForm.addEventListener("submit", async function (event) {
             applicationData.recipient_email
         );
         sessionStorage.setItem('email_prompt',emailInstructions)
+        sessionStorage.setItem(
+            "company_name",
+            applicationData.company_name
+        );
+
+        sessionStorage.setItem(
+            "job_role",
+            applicationData.job_role
+        );
+
+
 
         window.location.href = "/draft";
 

@@ -78,3 +78,7 @@ def debug_student(student_id: int):
             {"student_id": student_id}
         )
         return result.mappings().first() or {"message": "Student not found"}
+
+@app.get('/complete')
+def complete():
+    return FileResponse(BASE_DIR/'static'/'complete.html')
