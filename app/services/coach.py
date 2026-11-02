@@ -21,7 +21,6 @@ def check_answer(answer, question, student_id):
     chunks, vectors = load_student_resume(student_id)
     top = retrieve(answer, vectors, chunks, k=2)
     evidence = "\n---\n".join(top)
-
     prompt = f"""Check a student's interview answer using ONLY the resume chunks below.
 Use no outside knowledge.
 

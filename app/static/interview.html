@@ -17,6 +17,7 @@
     </header>
 
     <main>
+        <div id="questions-container"></div>
         <section id="interview-section">
             <h2>Your Interview Question</h2>
 
@@ -56,6 +57,15 @@
             <button id="submit-button" type="button">
                 Submit Answer
             </button>
+            <div class="question-navigation">
+            <button id="previous-button" type="button" disabled>
+                ← Previous
+            </button>
+
+            <button id="next-button" type="button">
+                Next →
+            </button>
+            </div>
 
             <p id="status-message" role="status"></p>
         </section>

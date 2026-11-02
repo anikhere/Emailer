@@ -82,7 +82,11 @@ def send_the_answer(request:AnswerRequest):
            status_code=400,
            detail="Answer cannot be empty."
     )
-    op = check_answer(question=question,answer=answer,file_path=file_path)
+    op = check_answer(
+    question=question,
+    answer=answer,
+    student_id=request.student_id
+)
     if op is not None:
         return op 
     raise HTTPException(

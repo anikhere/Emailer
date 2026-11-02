@@ -55,12 +55,10 @@ body {
     color: var(--text);
 }
 
-/* Preserve native hidden behavior even on elements with display rules. */
 [hidden] {
     display: none !important;
 }
 
-/* 2. Header and page frame ---------------------------------------------- */
 header,
 main {
     width: min(var(--measure), calc(100% - var(--gutter) - var(--gutter)));

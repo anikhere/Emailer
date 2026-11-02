@@ -8,20 +8,26 @@ const micStatus = document.querySelector('#mic-status');
 const trans_button = document.querySelector('#transcribe-button')
 const evi = document.querySelector('#evidence');
 const claim = document.querySelector('#unsupported-claims');
+const questionsContainer = document.querySelector('#questions-container');
 const tip = document.querySelector('#tip');
 const recordedAudio = document.querySelector('#recorded-audio');
-
+const prev = document.querySelector('#previous-button');
+const next = document.querySelector('#next-button');
+let currentQuestionIndex = 0;
+let questions = [];
+let interviewResults = [null, null, null];
+prev.disabled = true;
 async function loadQuestion() {
     try {
-        const saved_questions = JSON.parse(sessionStorage.getItem('inter_que')|| 'null');
-        let questions = JSON.parse(saved_questions || 'null');
+        const saved_questions = sessionStorage.getItem('inter_ques');
+        questions = saved_questions ? JSON.parse(saved_questions) : null;
 
         if (!questions){
             const student_id = sessionStorage.getItem('student_id');
             if (!student_id){
                 throw new Error('the student id is not found')
             }
-            const Student_response = await fetch(`/api/student/${student_id}`);
+            const Student_response = await fetch(`/api/students/${student_id}`);
             if (!Student_response.ok){
                 throw new Error("failed to fetch the id");   
             }
@@ -46,13 +52,58 @@ async function loadQuestion() {
                 JSON.stringify(questions)
             );
         }
-        questionElement.textContent = questions[0]
+        questionElement.textContent = questions[currentQuestionIndex];
     }catch(error){
         console.error(error);
         questionElement.textContent = 'could not load the questions'
     }
-}
+    prev.disabled = true;
+    next.disabled = !questions || questions.length <= 1;}
+interviewResults[currentQuestionIndex] ??= {
+    answer: '',
+    feedback: null
+};
 
+interviewResults[currentQuestionIndex].answer = answer.value;
+function Nav_direction(dire) {
+
+    currentQuestionIndex += dire;
+
+interviewResults[currentQuestionIndex] ??= {
+    answer: '',
+    feedback: null
+};
+interviewResults[currentQuestionIndex].answer = answer.value;
+questionElement.textContent = questions[currentQuestionIndex];
+
+const result = interviewResults[currentQuestionIndex];
+
+    // Restore saved answer and feedback
+
+    answer.value = result.answer;
+
+    if (result.feedback) {
+        const data = result.feedback;
+
+        evi.textContent = data.evidence;
+        tip.textContent = data.tip;
+        claim.textContent = data.unsupported_claims.join(', ');
+
+        feed.textContent = data.named_project
+            ? 'A project from your profile was identified.'
+            : 'No project from your profile was identified.';
+    } else {
+        evi.textContent = '';
+        tip.textContent = '';
+        claim.textContent = '';
+        feed.textContent = '';
+    }
+
+    prev.disabled = currentQuestionIndex === 0;
+    next.disabled = currentQuestionIndex === 2;
+}
+next.addEventListener('click',() => Nav_direction(1));
+prev.addEventListener('click',() => Nav_direction(-1));
 async function send_que_ans() {
     try {
         const answerText = answer.value.trim();
@@ -68,16 +119,24 @@ async function send_que_ans() {
             },
             body: JSON.stringify({
                 question: questionElement.textContent,
-                answer: answerText
+                answer: answerText,
+                student_id:(sessionStorage.getItem('student_id'))
             })
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            throw new Error(data.detail || 'Failed to submit answer.');
-        }
+            console.log('422 Details:', JSON.stringify(data.detail, null, 2));
 
+            throw new Error(
+                JSON.stringify(data.detail, null, 2)
+            );
+        }
+            interviewResults[currentQuestionIndex] = {
+        answer: answerText,
+        feedback: data
+    };
         evi.textContent = data.evidence;
         tip.textContent = data.tip;
         claim.textContent = data.unsupported_claims.join(', ');
@@ -90,6 +149,7 @@ async function send_que_ans() {
         console.error('Error:', error.message);
         feed.textContent = error.message;
     }
+    
 }
 
 
