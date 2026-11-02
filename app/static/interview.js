@@ -13,18 +13,43 @@ const recordedAudio = document.querySelector('#recorded-audio');
 
 async function loadQuestion() {
     try {
-        const response = await fetch('/api/interview/');
+        const saved_questions = JSON.parse(sessionStorage.getItem('inter_que')|| 'null');
+        let questions = JSON.parse(saved_questions || 'null');
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch the question.');
+        if (!questions){
+            const student_id = sessionStorage.getItem('student_id');
+            if (!student_id){
+                throw new Error('the student id is not found')
+            }
+            const Student_response = await fetch(`/api/student/${student_id}`);
+            if (!Student_response.ok){
+                throw new Error("failed to fetch the id");   
+            }
+            const Student_rep = await Student_response.json();
+            const resume = Student_rep.resume_text
+            const respond = await fetch(`/interview/generate`,{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    resume:resume
+                })
+            });
+            if (!respond.ok){
+                throw new Error('COuld not generate questions');
+            }
+            const data = await respond.json();
+            questions = data.questions;
+            sessionStorage.setItem(
+                'inter_ques',
+                JSON.stringify(questions)
+            );
         }
-
-        const data = await response.json();
-        questionElement.textContent = data.question;
-
-    } catch (error) {
-        console.error('Error:', error.message);
-        questionElement.textContent = 'Could not load question.';
+        questionElement.textContent = questions[0]
+    }catch(error){
+        console.error(error);
+        questionElement.textContent = 'could not load the questions'
     }
 }
 

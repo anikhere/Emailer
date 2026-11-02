@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from fastapi import APIRouter
 from fastapi import Depends
+from app.services.rag import process_resume, save_student_resume    
 from sqlalchemy.orm import Session
 from app.database.connection import get_db
 from app.database.tables import Student
@@ -49,7 +50,18 @@ def create_Student(student:StudentCreate,db:Session = Depends(get_db)):
     db.add(new_student)
     db.commit()
     db.refresh(new_student)
+    try:
+        chunks, vectors = process_resume(new_student.resume_text)
+        save_student_resume(new_student.id, chunks, vectors)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Resume processing failed: {str(e)}"
+        )
+
     return new_student
+
+
 
 @router.get('/{student_id}',response_model=student_profile)
 def get_students_cred(student_id:int,db:Session = Depends(get_db)):

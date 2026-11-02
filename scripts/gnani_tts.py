@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-import winsound
+
 from pathlib import Path
 
 from gnani.tts import (

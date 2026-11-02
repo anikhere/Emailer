@@ -6,6 +6,8 @@ from app.services.rag import retrieve
 import numpy as np
 import subprocess
 import os
+
+import shutil
 from fastapi.responses import Response
 
 
@@ -20,11 +22,12 @@ from gnani.stt import (
     InvalidAudioError,
     APIError,
 )
-FFMPEG_PATH = (
-    r"C:\Users\Lenovo\AppData\Local\Microsoft\WinGet\Packages"
-    r"\Gyan.FFmpeg.Shared_Microsoft.Winget.Source_8wekyb3d8bbwe"
-    r"\ffmpeg-9.0.2-full_build-shared\bin\ffmpeg.exe"
-)
+FFMPEG_PATH = os.getenv("FFMPEG_PATH") or shutil.which("ffmpeg")
+
+if FFMPEG_PATH is None:
+    raise RuntimeError(
+        "FFmpeg not found. Install FFmpeg or set the FFMPEG_PATH environment variable."
+    )
 data = np.load('saved_file.npz',allow_pickle=False)
 chunks = data['chunks'].tolist()
 vectors = data['vector']
@@ -46,6 +49,7 @@ class AnswerType(BaseModel):
 class AnswerRequest(BaseModel):
     question: str
     answer: str
+    student_id: str
 
 
 router = APIRouter(
@@ -120,7 +124,7 @@ async def Wav_upload(file: UploadFile = File(...)):
                 text=True,
             )
 
-        client = GnaniSTTClient()  # CHANGED: Now inside try
+        client = GnaniSTTClient()  
 
         result = await run_in_threadpool(
             client.transcribe,

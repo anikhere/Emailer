@@ -9,7 +9,6 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, UploadFile, File
 
 load_dotenv()
-client = Client(api_key=os.getenv('GEMINI_API_KEY'))
 
 route = APIRouter(
     prefix='/interview',
@@ -51,6 +50,7 @@ def gen_ques(resume:Resume):
             status_code=400,
             detail='the resume cant be empty'
         )
+    client = Client(api_key=os.getenv('GEMINI_API_KEY'))
     prompt = build_question_prompt(resume.resume.strip())
     response = client.models.generate_content(
         model = 'gemini-3.5-flash-lite',

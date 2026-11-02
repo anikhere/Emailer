@@ -15,7 +15,6 @@ from dotenv import load_dotenv
 load_dotenv()
 router = APIRouter(prefix='/api')
 
-client = GnaniSTTClient()
 @router.post('/stt_')
 async def convert_to_text(file:UploadFile = File(...)):
     if not file.content_type or not file.content_type.startswith("audio/"):
@@ -49,6 +48,8 @@ async def convert_to_text(file:UploadFile = File(...)):
             capture_output=True,
             text=True,
         )
+        client = GnaniSTTClient()
+
         result = await run_in_threadpool(
             client.transcribe,
             wav_path,

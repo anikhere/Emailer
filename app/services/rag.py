@@ -14,10 +14,15 @@ DB_FILE = Path('saved_chunks.npz')
 K = 2  
 
 
-def chunks_resume(resume):
-    pieces = re.split(r"\n\s*\n", resume)
-    return [p.strip() for p in pieces if p.strip()][:100]
 
+def chunks_resume(resume):
+        pieces = re.split(r"\n\s*\n", resume)
+
+        return [
+            p.strip()
+            for p in pieces
+            if p.strip()
+        ][:100]
 
 def embed(chunks):
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -30,7 +35,29 @@ def embed(chunks):
     vector = np.array(rows)
     vector = vector / np.linalg.norm(vector, axis=1, keepdims=True)
     return vector
+def save_student_resume(student_id, chunks, vectors):
+    file_path = Path("resume_data") / f"{student_id}.npz"
+    file_path.parent.mkdir(parents=True, exist_ok=True)
 
+    np.savez(file_path, chunks=chunks, vector=vectors)
+def load_student_resume(student_id):
+    file  = Path('resume_data') / f'{student_id}.npz'
+    if not file.exists():
+        raise FileNotFoundError(f'student resume not found')
+    data = np.load(file,allow_pickle=True)
+    chunks = data['chunks'].tolist()
+    vectors = data['vector']
+    return chunks,vectors
+
+def process_resume(resume):
+
+    chunks = chunks_resume(resume)
+    if not chunks:
+        raise ValueError(f'no text found in the resume')
+    vectors = embed(chunks)
+    
+
+    return chunks, vectors
 
 def retrieve(question, vectors, pics, k=3):
     q = embed([question])[0]
