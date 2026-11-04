@@ -82,3 +82,7 @@ def debug_student(student_id: int):
 @app.get('/complete')
 def complete():
     return FileResponse(BASE_DIR/'static'/'complete.html')
+
+@app.get("/final_dash")
+async def final_dashboard():
+    return FileResponse("static/final_dash.html")

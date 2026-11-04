@@ -65,42 +65,58 @@ interviewResults[currentQuestionIndex] ??= {
 };
 
 interviewResults[currentQuestionIndex].answer = answer.value;
+
 function Nav_direction(dire) {
 
-    currentQuestionIndex += dire;
+    // Save the current question's answer
+    interviewResults[currentQuestionIndex] ??= {
+        answer: '',
+        feedback: null
+    };
 
-interviewResults[currentQuestionIndex] ??= {
-    answer: '',
-    feedback: null
-};
-interviewResults[currentQuestionIndex].answer = answer.value;
-questionElement.textContent = questions[currentQuestionIndex];
+    interviewResults[currentQuestionIndex].answer = answer.value;
 
-const result = interviewResults[currentQuestionIndex];
+    // Move to the next or previous question
+    const newIndex = currentQuestionIndex + dire;
 
-    // Restore saved answer and feedback
+    if (newIndex < 0 || newIndex >= questions.length) return;
 
+    currentQuestionIndex = newIndex;
+
+    // Initialise destination question
+    interviewResults[currentQuestionIndex] ??= {
+        answer: '',
+        feedback: null
+    };
+
+    const result = interviewResults[currentQuestionIndex];
+
+    // Display question and restore its answer
+    questionElement.textContent = questions[currentQuestionIndex];
     answer.value = result.answer;
 
+    // Clear previous feedback
+    evi.textContent = '';
+    tip.textContent = '';
+    claim.textContent = '';
+    feed.textContent = '';
+
+    // Restore feedback if available
     if (result.feedback) {
         const data = result.feedback;
 
-        evi.textContent = data.evidence;
-        tip.textContent = data.tip;
-        claim.textContent = data.unsupported_claims.join(', ');
+        evi.textContent = data.evidence || '';
+        tip.textContent = data.tip || '';
+        claim.textContent = (data.unsupported_claims || []).join(', ');
 
         feed.textContent = data.named_project
             ? 'A project from your profile was identified.'
             : 'No project from your profile was identified.';
-    } else {
-        evi.textContent = '';
-        tip.textContent = '';
-        claim.textContent = '';
-        feed.textContent = '';
     }
 
+    // Update navigation buttons
     prev.disabled = currentQuestionIndex === 0;
-    next.disabled = currentQuestionIndex === 2;
+    next.disabled = currentQuestionIndex === questions.length - 1;
 }
 next.addEventListener('click',() => Nav_direction(1));
 prev.addEventListener('click',() => Nav_direction(-1));
@@ -137,13 +153,20 @@ async function send_que_ans() {
         answer: answerText,
         feedback: data
     };
-        evi.textContent = data.evidence;
-        tip.textContent = data.tip;
-        claim.textContent = data.unsupported_claims.join(', ');
+        // Redirect after all three questions are evaluated
+const allCompleted = interviewResults.every(
+    result => result && result.feedback
+);
 
-        feed.textContent = data.named_project
-            ? 'A project from your profile was identified.'
-            : 'No project from your profile was identified.';
+if (currentQuestionIndex === questions.length - 1 && allCompleted) {
+    sessionStorage.setItem("interview_report", JSON.stringify({
+        questions: questions,
+        results: interviewResults
+    }));
+
+    window.location.href = "/final_dash";
+    return;
+}
 
     } catch (error) {
         console.error('Error:', error.message);

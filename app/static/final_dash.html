@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>Interview Coach · Results · InternBridge</title>
+    <link rel="stylesheet" href="/static/final_dash.css">
+    <script src="/static/final_dash.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to results</a>
+
+    <header class="topbar">
+        <div class="topbar-inner">
+
+            <a class="brand" href="/dash">InternBridge</a>
+
+            <nav class="topnav" aria-label="Primary">
+                <a href="/dash">Dashboard</a>
+                <a href="/interview" aria-current="page">Interview Coach</a>
+            </nav>
+
+            <div class="topbar-right">
+                <span class="avatar" id="profile-avatar" aria-hidden="true">IB</span>
+                <a class="topbar-link" href="/dash">Profile</a>
+            </div>
+
+        </div>
+    </header>
+
+    <main id="main" class="page">
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/dash">Dashboard</a></li>
+                <li><a href="/interview">Interview Coach</a></li>
+                <li aria-current="page">Results</li>
+            </ol>
+        </nav>
+
+        <section class="quote" aria-label="Motivation">
+            <p class="quote-text">Hard work compounds. So does practice.</p>
+        </section>
+
+        <section class="empty" id="empty-state" hidden>
+            <h1>Nothing scored yet</h1>
+            <p>Finish the three questions and your results will appear here.</p>
+            <div class="empty-actions">
+                <a class="btn btn-primary" href="/interview">Start the interview</a>
+                <a class="btn btn-ghost" href="/dash">Return to dashboard</a>
+            </div>
+        </section>
+
+        <div id="results-root" hidden>
+
+            <section class="hero" aria-labelledby="hero-title">
+                <p class="eyebrow">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span id="completion-status">Interview completed</span>
+                </p>
+                <h1 id="hero-title">Your Interview Performance</h1>
+                <p class="hero-copy" id="hero-copy">
+                    Three questions, scored against the evidence in your resume.
+                    Treat this as a practice estimate, not a verdict.
+                </p>
+            </section>
+
+            <section class="panel overall" aria-labelledby="overall-title">
+                <div class="overall-score">
+                    <div class="ring">
+                        <svg viewBox="0 0 140 140" role="img" aria-labelledby="ring-label">
+                            <title id="ring-label">Overall performance</title>
+                            <circle class="ring-track" cx="70" cy="70" r="58"></circle>
+                            <circle class="ring-fill" id="ring-fill" cx="70" cy="70" r="58"></circle>
+                        </svg>
+                        <div class="ring-text">
+                            <span class="ring-score" id="overall-score">—</span>
+                            <span class="ring-max" id="overall-max">/ 18</span>
+                        </div>
+                    </div>
+                    <p class="ring-percent"><span id="overall-percent">—</span> of total marks</p>
+                </div>
+
+                <div class="overall-copy">
+                    <h2 id="overall-title">Overall</h2>
+                    <p id="overall-summary">—</p>
+                    <p class="overall-split">
+                        Strongest <b id="stat-strongest">—</b>
+                        <span aria-hidden="true">·</span>
+                        Weakest <b id="stat-weakest">—</b>
+                    </p>
+                </div>
+            </section>
+
+            <section class="skills" aria-labelledby="skills-title">
+                <div class="section-head">
+                    <h2 id="skills-title">Skill analysis</h2>
+                    <p>0–2 per question, 6 maximum</p>
+                </div>
+
+                <div class="skill-grid">
+
+                    <article class="card skill">
+                        <header>
+                            <h3>Relevance</h3>
+                            <p class="skill-score"><span id="skill-relevance">—</span><small>/6</small></p>
+                        </header>
+                        <div class="meter" role="progressbar" aria-labelledby="skill-relevance-label"
+                            aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="meter-relevance">
+                            <span class="meter-fill" id="bar-relevance"></span>
+                        </div>
+                        <p class="skill-note" id="skill-relevance-label">Did you answer the question asked?</p>
+                    </article>
+
+                    <article class="card skill">
+                        <header>
+                            <h3>Specificity</h3>
+                            <p class="skill-score"><span id="skill-specificity">—</span><small>/6</small></p>
+                        </header>
+                        <div class="meter" role="progressbar" aria-labelledby="skill-specificity-label"
+                            aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="meter-specificity">
+                            <span class="meter-fill" id="bar-specificity"></span>
+                        </div>
+                        <p class="skill-note" id="skill-specificity-label">Named projects, tools and numbers?</p>
+                    </article>
+
+                    <article class="card skill">
+                        <header>
+                            <h3>Structure</h3>
+                            <p class="skill-score"><span id="skill-structure">—</span><small>/6</small></p>
+                        </header>
+                        <div class="meter" role="progressbar" aria-labelledby="skill-structure-label"
+                            aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="meter-structure">
+                            <span class="meter-fill" id="bar-structure"></span>
+                        </div>
+                        <p class="skill-note" id="skill-structure-label">Claim, then evidence, then result?</p>
+                    </article>
+
+                </div>
+            </section>
+
+            <section class="questions" aria-labelledby="questions-title">
+                <div class="section-head">
+                    <h2 id="questions-title">Your answers</h2>
+                    <p>Feedback from your resume only</p>
+                </div>
+
+                <div class="question-list" id="questions-list"></div>
+            </section>
+
+            <section class="card insights" aria-labelledby="insights-title">
+                <h2 id="insights-title">What to fix next</h2>
+                <ol class="insight-list" id="insights-recommendations"></ol>
+            </section>
+
+            <section class="actions" aria-labelledby="actions-title">
+                <h2 id="actions-title" class="sr-only">Next steps</h2>
+                <a class="btn btn-primary" id="practice-again" href="/interview">Practice again</a>
+                <a class="btn btn-ghost" id="back-dashboard" href="/dash">Return to dashboard</a>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer class="page-footer">
+        <p>InternBridge · Interview Coach · Practice estimate only</p>
+    </footer>
+
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a548c1667f6a4290',t:'MTc5MzY4MTM5OA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a548c1667f6a4290',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+</html>
