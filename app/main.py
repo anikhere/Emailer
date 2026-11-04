@@ -85,4 +85,5 @@ def complete():
 
 @app.get("/final_dash")
 async def final_dashboard():
-    return FileResponse("static/final_dash.html")
+    dashboard_path = Path(__file__).parent / "static" / "final_dash.html"
+    return FileResponse(dashboard_path)

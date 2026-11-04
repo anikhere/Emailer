@@ -1,0 +1,31 @@
+/* Timer under the Submit Answer button.
+   Paste at the end of interview.css */
+
+#evaluate-timer {
+    margin: 0.55rem 0 0;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.55);
+    font-variant-numeric: tabular-nums;
+    /* tabular-nums keeps the width steady so the text does not jitter */
+    min-height: 1.2em;
+}
+
+#evaluate-timer.is-running {
+    color: #ddc894;
+    /* the gold pulse only while waiting */
+    animation: timer-pulse 1.4s ease-in-out infinite;
+}
+
+#evaluate-timer[hidden] {
+    display: none;
+}
+
+@keyframes timer-pulse {
+    0%, 100% { opacity: 0.65; }
+    50%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #evaluate-timer.is-running { animation: none; }
+}
