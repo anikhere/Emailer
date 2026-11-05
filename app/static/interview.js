@@ -427,7 +427,7 @@ async function Bolbb_transcribe(Blobb) {
     try {
         micStatus.textContent = 'Transcribing...';
 
-        const response = await fetch("/api/stt", {
+        const response = await fetch("/api/stt_", {
             method: "POST",
             body: form_data
         });

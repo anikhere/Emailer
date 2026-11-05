@@ -12,3 +12,4 @@ numpy
 gnani-vachana
 python-multipart
 pypdf
+imageio-ffmpeg

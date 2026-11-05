@@ -22,14 +22,17 @@ from gnani.stt import (
     InvalidAudioError,
     APIError,
 )
-FFMPEG_PATH = os.getenv("FFMPEG_PATH") or shutil.which("ffmpeg")
-
-if FFMPEG_PATH is None:
-    raise RuntimeError(
-        "FFmpeg not found. Install FFmpeg or set the FFMPEG_PATH environment variable."
-    )
-
-
+temp_path = None
+inp_path = None
+def get_ffmpeg():
+    path = os.getenv("FFMPEG_PATH") or shutil.which("ffmpeg")
+    if path:
+        return path
+    try:
+        import imageio_ffmpeg
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception:
+        return None
 
 load_dotenv()
 
@@ -108,21 +111,9 @@ async def Wav_upload(file: UploadFile = File(...)):
             temp.write(audio_bites)
             inp_path = temp.name
 
-        temp_path = inp_path.rsplit(".", 1)[0] + ".wav"
-        await run_in_threadpool(
-            subprocess.run,
-                [
-                    FFMPEG_PATH,
-                    "-y",
-                    "-i", inp_path,
-                    "-ar", "16000",
-                    "-ac", "1",
-                    temp_path,
-                ],
-                check=True,
-                capture_output=True,
-                text=True,
-            )
+        binary = get_ffmpeg()
+
+
 
         client = GnaniSTTClient()  
 
@@ -160,6 +151,9 @@ async def Wav_upload(file: UploadFile = File(...)):
     finally:
         if temp_path and os.path.exists(temp_path):
             os.remove(temp_path)
+
+        if inp_path and os.path.exists(inp_path):
+            os.remove(inp_path)
 
         await file.close()
 @router.post('/hear_question/',response_model=AnswerType)

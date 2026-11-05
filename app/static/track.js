@@ -25,7 +25,7 @@ async function setStatus(id, status) {
         const response = await fetch(`/api/applications/${id}/status`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status })
+            body: JSON.stringify({ status ,student_id: Number(studentId)})
         });
         if (!response.ok) throw new Error('Could not update this row.');
 

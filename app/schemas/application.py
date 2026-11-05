@@ -8,6 +8,7 @@ from typing import Literal
 
 class StatusUpdate(BaseModel):
     status: Literal["Drafted", "Sent", "Replied", "Closed"]
+    student_id: int
 
 
 class ApplicationCreate(BaseModel):
@@ -22,11 +23,12 @@ class ApplicationResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     student_id: int
-    company_name: str
+    company_name: str | None = None
     job_role: str
     recipient_email: str
     status: str
     created_at: datetime
+    updated_at: datetime
 
 router = APIRouter(
     prefix='/api',
@@ -75,25 +77,30 @@ def Fetch_resume(
     '/students/{student_id}/applications',
     response_model=list[ApplicationResponse],
 )
-def list_app(student_id:int,db:Session = Depends(get_db)):
-    stud_rec = db.get(Student,student_id)
-    if not stud_rec:
-        raise HTTPException(status_code=404,detail='student not found')
+def list_app(student_id: int, db: Session = Depends(get_db)):
+    stud_rec = db.get(Student, student_id)
+    if stud_rec is None:
+        raise HTTPException(status_code=404, detail='student not found')
+
     rows = (
-        db.query(Applicant).filter(Applicant.student_id == student_id).order_by(Applicant.created_at.desc()).all()
+        db.query(Applicant)
+        .filter(Applicant.student_id == student_id)
+        .order_by(Applicant.created_at.desc())
+        .all()
     )
+
     return [
         ApplicationResponse(
-            id=rows.id,
-            student_id=rows.student_id,
-            company_name=rows.job_role,
-            job_role=rows.job_role,
-            recipient_email=rows.recipient_email,
-            status='Drafted' if rows.status == 'Pending' else rows.status,
-            created_at=rows.created_at,
+            id=row.id,
+            student_id=row.student_id,
+            company_name=row.company_name or '',
+            job_role=row.job_role,
+            recipient_email=row.recipient_email,
+            status='Drafted' if row.status == 'Pending' else row.status,
+            created_at=row.created_at,
+            updated_at=row.updated_at,
         )
         for row in rows
-
     ]
 @router.patch(
     '/applications/{application_id}/status',
@@ -107,6 +114,8 @@ def update_status(
     row = db.get(Applicant,application_id)
     if row is None:
         raise HTTPException(status_code=404,detail='application not Found')
+    if row.student_id != payload.student_id:
+        raise HTTPException(status_code=403, detail='Not your application')
     row.status = payload.status
     db.commit()
     db.refresh(row)
