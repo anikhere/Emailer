@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>Application Tracker · InternBridge</title>
+    <link rel="stylesheet" href="/static/track.css">
+    <script src="/static/track.js" defer></script>
+</head>
+<body>
+    <main class="page">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/dash">Dashboard</a></li>
+                <li aria-current="page">Application Tracker</li>
+            </ol>
+        </nav>
+
+        <h1>Application Tracker</h1>
+        <p class="lede">Every outreach you have generated in InternBridge.</p>
+
+        <p class="summary" id="summary"></p>
+
+        <div class="rows" id="list"></div>
+
+        <section class="empty" id="empty" hidden>
+            <h2>No outreach yet</h2>
+            <p>Generate your first email and it will appear here.</p>
+            <a class="btn" href="/applicant">Open Emailer</a>
+        </section>
+
+        <p class="status" id="status-message" role="status"></p>
+    </main>
+
+    <footer class="page-footer">
+        <p>InternBridge · Application Tracker · Statuses you set yourself</p>
+    </footer>
+</body>
+</html>

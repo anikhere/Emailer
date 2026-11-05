@@ -4,6 +4,11 @@ from sqlalchemy.orm import Session
 from app.database.connection import get_db
 from app.database.tables import Applicant, Student
 from pydantic import BaseModel, ConfigDict
+from typing import Literal
+
+class StatusUpdate(BaseModel):
+    status: Literal["Drafted", "Sent", "Replied", "Closed"]
+
 
 class ApplicationCreate(BaseModel):
     company_name: str
@@ -66,3 +71,43 @@ def Fetch_resume(
         'student_id':applicant.student_id,
         'resume':applicant.student.resume_text
     }
+@router.get(
+    '/students/{student_id}/applications',
+    response_model=list[ApplicationResponse],
+)
+def list_app(student_id:int,db:Session = Depends(get_db)):
+    stud_rec = db.get(Student,student_id)
+    if not stud_rec:
+        raise HTTPException(status_code=404,detail='student not found')
+    rows = (
+        db.query(Applicant).filter(Applicant.student_id == student_id).order_by(Applicant.created_at.desc()).all()
+    )
+    return [
+        ApplicationResponse(
+            id=rows.id,
+            student_id=rows.student_id,
+            company_name=rows.job_role,
+            job_role=rows.job_role,
+            recipient_email=rows.recipient_email,
+            status='Drafted' if rows.status == 'Pending' else rows.status,
+            created_at=rows.created_at,
+        )
+        for row in rows
+
+    ]
+@router.patch(
+    '/applications/{application_id}/status',
+    response_model=ApplicationResponse,
+)
+def update_status(
+    application_id:int,
+    payload:StatusUpdate,
+    db:Session = Depends(get_db)
+):
+    row = db.get(Applicant,application_id)
+    if row is None:
+        raise HTTPException(status_code=404,detail='application not Found')
+    row.status = payload.status
+    db.commit()
+    db.refresh(row)
+    return row 

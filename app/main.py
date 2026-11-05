@@ -87,3 +87,6 @@ def complete():
 async def final_dashboard():
     dashboard_path = Path(__file__).parent / "static" / "final_dash.html"
     return FileResponse(dashboard_path)
+@app.get('/application-tracker', include_in_schema=False)
+def application_tracker():
+    return FileResponse(BASE_DIR / 'static' / 'tracker.html')

@@ -25,13 +25,14 @@ def chunks_resume(resume):
         ][:100]
 
 def embed(chunks):
+    if not chunks:
+        return np.zeros((0, 0))
+
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-    rows = []
-    for c in chunks:
-        result = client.models.embed_content(
-            model="gemini-embedding-2", contents=c
-        )
-        rows.append(result.embeddings[0].values)
+    result = client.models.embed_content(
+        model="gemini-embedding-2", contents=chunks
+    )
+    rows = [e.values for e in result.embeddings]
     vector = np.array(rows)
     vector = vector / np.linalg.norm(vector, axis=1, keepdims=True)
     return vector

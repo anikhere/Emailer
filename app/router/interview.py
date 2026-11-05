@@ -28,15 +28,11 @@ if FFMPEG_PATH is None:
     raise RuntimeError(
         "FFmpeg not found. Install FFmpeg or set the FFMPEG_PATH environment variable."
     )
-data = np.load('saved_file.npz',allow_pickle=False)
-chunks = data['chunks'].tolist()
-vectors = data['vector']
 
 
 
 load_dotenv()
 
-file_path = 'saved_file.npz'
 ques = [
 "Tell me about a project you built using Python and Google Gemini.",
 "How did you use FastAPI and SQLAlchemy during your internship?",

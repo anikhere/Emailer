@@ -37,15 +37,15 @@ def Hear(question):
 
     except TTSAuthenticationError:
         print("Authentication failed. Check your Gnani API key.")
-        return None
+        raise 
 
     except TTSAPIError as error:
         print(f"Gnani TTS API error: {error}")
-        return None
+        raise
 
     except Exception as error:
         print(f"Unexpected TTS error: {error}")
-        return None
+        raise
 
 
 # try:
