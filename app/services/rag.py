@@ -22,7 +22,7 @@ def chunks_resume(resume):
             p.strip()
             for p in pieces
             if p.strip()
-        ][:100]
+        ][:25]
 
 def embed(chunks):
     if not chunks:

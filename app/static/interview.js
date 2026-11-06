@@ -17,6 +17,30 @@ const answer = document.querySelector('#answer');
 const button = document.querySelector('#submit-button');
 const questionElement = document.querySelector('#question');
 const rep_but = document.querySelector('#replay-button');
+const audioCache = new Map();
+
+function audioFor(text) {
+    if (!audioCache.has(text)) {
+        const request = fetch('/api/hear_question/', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ question: text })
+        }).then((response) => {
+            if (!response.ok) throw new Error('could not generate the audio');
+            return response.blob();
+        }).then((blob) => URL.createObjectURL(blob));
+
+        audioCache.set(text, request);
+        request.catch(() => audioCache.delete(text));
+    }
+    return audioCache.get(text);
+}
+
+function prefetchAudio() {
+    const text = questionElement.textContent.trim();
+    if (!text || text === 'Loading question...') return;
+    audioFor(text).catch(() => {});
+}
 const feed = document.querySelector('#status-message');
 const micButton = document.querySelector('#mic-button');
 const micStatus = document.querySelector('#mic-status');
@@ -279,30 +303,23 @@ async function send_que_ans() {
 button.addEventListener('click', send_que_ans);
 
 rep_but.onclick = async () => {
-    try {
-        const response = await fetch('/api/hear_question/', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                question: questionElement.textContent.trim()
-            })
-        });
-        if (!response.ok) {
-            throw new Error('could not generate the audio');
-        }
-        const audioBlob = await response.blob();
-        const audioUrl = URL.createObjectURL(audioBlob);
-        const audio = new Audio(audioUrl);
-        audio.play().catch(error => console.error("Playback failed:", error));
+    const text = questionElement.textContent.trim();
+    const label = rep_but.textContent;
 
+    try {
+        rep_but.disabled = true;
+        if (!audioCache.has(text)) rep_but.textContent = 'Preparing…';
+
+        const url = await audioFor(text);
+        new Audio(url).play().catch((error) => console.error("Playback failed:", error));
     } catch (error) {
-        console.error('audio error:', error);
-        feed.textContent = error.message;
+        console.error('Audio error', error);
+        micStatus.textContent = 'Could not play the question. Please try again.';
+    } finally {
+        rep_but.textContent = label;
+        rep_but.disabled = false;
     }
 };
-
 let mediaRecorder = null;
 let audioChunks = [];
 let audioStream = null;
