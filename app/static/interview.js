@@ -37,6 +37,7 @@ function audioFor(text) {
 }
 
 function prefetchAudio() {
+    if (!questions || !questions.length) return;
     const text = questionElement.textContent.trim();
     if (!text || text === 'Loading question...') return;
     audioFor(text).catch(() => {});
@@ -102,6 +103,8 @@ async function loadQuestion() {
     }
     prev.disabled = true;
     next.disabled = !questions || questions.length <= 1;
+        prefetchAudio();
+
 }
 
 /* Paints one answer's feedback into the card.
@@ -132,6 +135,11 @@ function clearFeedback() {
 
 function Nav_direction(dire) {
 
+    questionElement.textContent = questions[currentQuestionIndex];
+    prefetchAudio();
+    answer.value = result.answer;
+    
+    
     // Save the current question's answer
     interviewResults[currentQuestionIndex] ??= {
         answer: '',
