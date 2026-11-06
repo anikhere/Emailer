@@ -38,29 +38,31 @@ router = APIRouter(
     response_model=StudentResponse,
     status_code=201
 )
-def create_Student(student:StudentCreate,db:Session = Depends(get_db)):
-    query = select(Student).where(Student.email==student.email)
+def create_Student(student: StudentCreate, db: Session = Depends(get_db)):
+    query = select(Student).where(Student.email == student.email)
     result = db.execute(query).scalar_one_or_none()
     if result is not None:
         raise HTTPException(
-            status_code =  409,
-            detail = 'A student with this email already exists'
+            status_code=409,
+            detail='A student with this email already exists'
         )
-    new_student = Student(**student.model_dump())
-    db.add(new_student)
-    db.commit()
-    db.refresh(new_student)
+
     try:
-        chunks, vectors = process_resume(new_student.resume_text)
-        save_student_resume(new_student.id, chunks, vectors)
+        chunks, vectors = process_resume(student.resume_text)
     except Exception as e:
         raise HTTPException(
             status_code=500,
             detail=f"Resume processing failed: {str(e)}"
         )
 
-    return new_student
+    new_student = Student(**student.model_dump())
+    db.add(new_student)
+    db.commit()
+    db.refresh(new_student)
 
+    save_student_resume(new_student.id, chunks, vectors)
+
+    return new_student
 
 
 @router.get('/{student_id}',response_model=student_profile)
