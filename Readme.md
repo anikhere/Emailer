@@ -4,7 +4,7 @@
 
 Write the internship email, practise the interview, keep track of who you wrote to.
 
-Built for the [Great Indian AI Internship Challenge] by Gnani AI.
+Built for the [Great Indian AI Internship Challenge](https://www.gnani.ai/internship) by Gnani AI.
 
 > The live app runs on Render's free tier. If it has been idle it takes about 50
 > seconds to wake the first time. Give it a moment, then it is quick.
