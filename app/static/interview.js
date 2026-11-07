@@ -135,9 +135,8 @@ function clearFeedback() {
 
 function Nav_direction(dire) {
 
-    questionElement.textContent = questions[currentQuestionIndex];
-    prefetchAudio();
-    answer.value = result.answer;
+       
+
     
     
     // Save the current question's answer
@@ -162,6 +161,9 @@ function Nav_direction(dire) {
     };
 
     const result = interviewResults[currentQuestionIndex];
+    questionElement.textContent = questions[currentQuestionIndex];
+    prefetchAudio();
+    answer.value = result.answer;
 
     // Display question and restore its answer
     questionElement.textContent = questions[currentQuestionIndex];
