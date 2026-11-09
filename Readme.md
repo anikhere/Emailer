@@ -83,7 +83,9 @@ judge someone else's answer.
 | Text to speech | **Gnani Timbre** — `timbre-v2.5`, reads interview questions aloud |
 | Language | Google Gemini — `gemini-3.5-flash-lite` for drafting, questions and scoring |
 | Embeddings | Google Gemini `gemini-embedding-2`, one batched call per resume |
-| Backend | FastAPI, SQLAlchemy, PostgreSQL |
+| Backend | FastAPI, SQLAlchemy |
+| Database | PostgreSQL on Neon (serverless) |
+| Hosting | Render — <https://emailer-4jh4.onrender.com> |
 | Frontend | plain HTML, CSS and JavaScript. No framework, no build step |
 
 Recorded audio is converted to 16 kHz mono WAV before it is sent to Prisma. If
