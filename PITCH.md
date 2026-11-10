@@ -1,5 +1,6 @@
 # InternBridge — one page
 
+**One-page pitch:** [PITCH.md](PITCH.md)
 **Live app:** https://emailer-4jh4.onrender.com
 
 ## The problem
