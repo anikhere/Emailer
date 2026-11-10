@@ -297,6 +297,31 @@ async function send_que_ans() {
             window.location.href = "/final_dash";
             return;
         }
+                if (currentQuestionIndex === questions.length - 1 && allCompleted) {
+            sessionStorage.setItem("interview_report", JSON.stringify({
+                questions: questions,
+                results: interviewResults
+            }));
+
+            window.location.href = "/final_dash";
+            return;
+        }
+
+        if (currentQuestionIndex === questions.length - 1 && allCompleted) {
+            sessionStorage.setItem("interview_report", JSON.stringify({
+                questions: questions,
+                results: interviewResults
+            }));
+
+            window.location.href = "/final_dash";
+            return;
+        }
+
+        if (currentQuestionIndex === questions.length - 1 && !allCompleted) {
+            feed.textContent = 'Answer all three questions to see your results.';
+        }
+
+        
 
     } catch (error) {
         console.error('Error:', error.message);
