@@ -1,5 +1,12 @@
 import os
-from app.services.rag import retrieve, load_student_resume
+from app.database.connection import SessionLocal
+from app.database.tables import Student
+from app.services.rag import (
+    retrieve,
+    load_student_resume,
+    process_resume,
+    save_student_resume,
+)
 
 from dotenv import load_dotenv
 from google import genai
@@ -21,7 +28,7 @@ class AnswerCheck(BaseModel):
 
 def check_answer(answer, question, student_id):
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-    chunks, vectors = load_student_resume(student_id)
+    chunks, vectors = resume_vectors(student_id)
     top = retrieve(answer, vectors, chunks, k=2)
     evidence = "\n---\n".join(top)
     prompt = f"""Check a student's interview answer using ONLY the resume chunks below.
@@ -76,4 +83,22 @@ Evaluate the answer fairly. Do not reward unsupported claims.
     except errors.APIError as e:
         print(f'the error is {e}')
         return None 
+def resume_vectors(student_id):
+    """Vectors live in a local file, which Render wipes on every deploy.
+    If the file is gone, rebuild it from the resume saved in Postgres."""
+    try:
+        return load_student_resume(student_id)
+    except FileNotFoundError:
+        pass
+
+    db = SessionLocal()
+    try:
+        student = db.get(Student, int(student_id))
+        if student is None or not student.resume_text:
+            raise FileNotFoundError("resume not found for this student")
+        chunks, vectors = process_resume(student.resume_text)
+        save_student_resume(int(student_id), chunks, vectors)
+        return chunks, vectors
+    finally:
+        db.close()
 

@@ -39,11 +39,18 @@ def send_the_answer(request: AnswerRequest):
             detail="Answer cannot be empty."
         )
 
-    op = check_answer(
-        question=question,
-        answer=answer,
-        student_id=request.student_id
-    )
+    try:
+        op = check_answer(
+            question=question,
+            answer=answer,
+            student_id=request.student_id
+        )
+    except FileNotFoundError:
+        raise HTTPException(
+            status_code=404,
+            detail="No resume on file for this profile. Please create it again."
+        )
+
     if op is not None:
         return op
 
@@ -51,8 +58,6 @@ def send_the_answer(request: AnswerRequest):
         status_code=503,
         detail="Answer evaluation is temporarily unavailable."
     )
-
-
 @router.post('/hear_question/', response_model=AnswerType)
 def play_question(request: AnswerType):
     try:
